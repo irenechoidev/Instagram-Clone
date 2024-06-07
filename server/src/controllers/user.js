@@ -16,6 +16,7 @@ exports.createUser = async (req, res) => {
   } catch (error) {
     res.json({ successful: false, token: '' });
   }
+
   res.json({
     successful: true,
     token: createToken(req.body.username),
