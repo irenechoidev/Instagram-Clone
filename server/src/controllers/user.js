@@ -3,13 +3,14 @@ const argon2 = require('argon2');
 const { createToken } = require('../utils/createToken');
 
 exports.createUser = async (req, res) => {
-  const hashedPassword = argon2.sign(req.body.passowrd);
+  const hashedPassword = await argon2.hash(req.body.password);
 
   const user = new User({
     username: req.body.username,
-    passowrd: hashedPassword,
+    password: hashedPassword,
     createdDate: new Date(),
   });
+
   try {
     await user.save();
   } catch (error) {
@@ -34,7 +35,7 @@ exports.loginUser = async (req, res) => {
   }
 
   res.json({
+    token: createToken(req.body.username),
     successful: true,
-    token: createToken(user.password),
   });
 };
