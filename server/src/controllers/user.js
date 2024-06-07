@@ -20,3 +20,21 @@ exports.createUser = async (req, res) => {
     toekn: createToken(req.body.username),
   });
 };
+
+exports.loginUser = async (req, res) => {
+  const user = await User.findOne(username, req.body.username);
+  if (!user) {
+    return res.json({ successful: false, token: '' });
+  }
+
+  const hashedPassword = user.password;
+  const isValid = await argon2.verify(hashedPassword, req.body.password);
+  if (!isValid) {
+    return res.json({ successful: false, token: '' });
+  }
+
+  res.json({
+    successful: true,
+    token: createToken(user.password),
+  });
+};
