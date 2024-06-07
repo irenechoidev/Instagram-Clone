@@ -18,8 +18,8 @@ exports.createUser = async (req, res) => {
   }
 
   res.json({
-    successful: true,
     token: createToken(req.body.username),
+    successful: true,
   });
 };
 
