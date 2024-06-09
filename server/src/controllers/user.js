@@ -22,7 +22,7 @@ exports.createUser = async (req, res) => {
 };
 
 exports.loginUser = async (req, res) => {
-  const user = await User.findOne(username, req.body.username);
+  const user = await User.findOne({ username: req.body.username });
   if (!user) {
     return res.json({ successful: false, token: '' });
   }
@@ -33,7 +33,7 @@ exports.loginUser = async (req, res) => {
     return res.json({ successful: false, token: '' });
   }
 
-  res.json({
+  return res.json({
     token: createToken(req.body.username),
     successful: true,
   });
