@@ -38,3 +38,19 @@ exports.loginUser = async (req, res) => {
     successful: true,
   });
 };
+
+exports.getUser = async (req, res) => {
+  const user = await User.findOne({ username: req.params.username });
+
+  if (!user) {
+    return res.json({
+      successful: false,
+      user,
+    });
+  }
+
+  return res.json({
+    successful: true,
+    user,
+  });
+};
