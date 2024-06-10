@@ -12,7 +12,7 @@ const PostSchema = new Schema({
   },
   createdDate: {
     type: Date,
-    required: true,
+    required: false,
   },
 });
 

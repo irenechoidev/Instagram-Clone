@@ -1,16 +1,23 @@
 const Post = require('../models/post');
 
 exports.createPost = async (req, res) => {
-  let message = 'post created';
+  let post = null;
 
   try {
-    await Post.create({
+    post = await Post.create({
       username: req.body.username,
       description: req.body.description,
       createdDate: new Date(),
     });
   } catch (error) {
-    res.json({ message: error.message });
+    return res.json({
+      successful: false,
+      post,
+    });
   }
-  res.json({ message: message });
+
+  return res.json({
+    successful: true,
+    post,
+  });
 };
