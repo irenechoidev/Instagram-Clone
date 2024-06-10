@@ -54,3 +54,32 @@ exports.getUser = async (req, res) => {
     user,
   });
 };
+
+exports.updateUser = async (req, res) => {
+  const { username, password } = req.body;
+
+  const oldUsername = req.params.username;
+  const newUsername = username || oldUsername;
+  const newPassword = password && (await argon2.hash(password));
+  let user = null;
+
+  try {
+    await User.updateOne(
+      { username: oldUsername },
+      { username: newUsername, password: newPassword }
+    );
+
+    user = await User.findOne({ username: newUsername });
+  } catch (err) {
+    // New username already exists
+    return res.json({
+      successful: false,
+      user,
+    });
+  }
+
+  return res.json({
+    successful: true,
+    user,
+  });
+};
