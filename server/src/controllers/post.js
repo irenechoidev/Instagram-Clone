@@ -21,3 +21,22 @@ exports.createPost = async (req, res) => {
     post,
   });
 };
+
+exports.getPost = async (req, res) => {
+  let post = null;
+  const { id } = req.params;
+
+  try {
+    post = await Post.findOne({ _id: id });
+  } catch (error) {
+    return res.json({
+      successful: false,
+      post,
+    });
+  }
+
+  return res.json({
+    successful: true,
+    post,
+  });
+};
