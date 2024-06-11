@@ -1,5 +1,5 @@
 const Post = require('../../src/models/post');
-const { createPost } = require('../../src/controllers/post');
+const { createPost, getPost } = require('../../src/controllers/post');
 
 test('create_post_success', async () => {
   const mockUsername = 'abcd';
@@ -16,4 +16,17 @@ test('create_post_success', async () => {
 
   expect(post).toEqual({});
   expect(isSuccessful).toEqual(true);
+});
+
+test('get_post_success', async () => {
+  const mockId = 'abcd';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = { json: (payload) => payload };
+
+  jest.spyOn(Post, 'findOne').mockResolvedValueOnce({});
+
+  const payload = await getPost(mockReq, mockRes);
+
+  expect(payload.successful).toEqual(true);
+  expect(payload.post).toEqual({});
 });
