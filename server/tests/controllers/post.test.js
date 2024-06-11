@@ -17,3 +17,18 @@ test('create_post_success', async () => {
   expect(post).toEqual({});
   expect(isSuccessful).toEqual(true);
 });
+
+test('update_post_success', async () => {
+  const mockUsername = 'abcd';
+  const mockDescription = 'This is a fake description';
+  const mockBody = { username: mockUsername, description: mockDescription };
+  const mockReq = { body: mockBody };
+  const mockRes = { json: (payload) => payload };
+
+  jest.spyOn(Post, 'create').mockResolvedValueOnce({});
+
+  const payload = await createPost(mockReq, mockRes);
+
+  expect(payload.successful).toEqual(true);
+  expect(payload.post).toEqual({});
+});
