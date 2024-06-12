@@ -30,3 +30,5 @@ test('get_post_success', async () => {
   expect(payload.successful).toEqual(true);
   expect(payload.post).toEqual({});
 });
+
+console.log('Wate');
