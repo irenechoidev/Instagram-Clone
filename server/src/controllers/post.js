@@ -40,3 +40,24 @@ exports.getPost = async (req, res) => {
     post,
   });
 };
+
+exports.updatePost = async (req, res) => {
+  let post = null;
+  const { id } = req.params;
+
+  try {
+    post = await Post.findOne({ _id: id });
+    await Post.updateOne({
+      description: req.body.description,
+    });
+  } catch (error) {
+    return res.json({
+      successful: false,
+      post,
+    });
+  }
+  return res.json({
+    successful: true,
+    post,
+  });
+};
