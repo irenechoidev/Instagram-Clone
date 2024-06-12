@@ -46,10 +46,14 @@ exports.updatePost = async (req, res) => {
   const { id } = req.params;
 
   try {
+    await Post.updateOne(
+      { _id: id },
+      {
+        description: req.body.description,
+      }
+    );
+
     post = await Post.findOne({ _id: id });
-    await Post.updateOne({
-      description: req.body.description,
-    });
   } catch (error) {
     return res.json({
       successful: false,
