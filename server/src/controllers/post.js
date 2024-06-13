@@ -65,3 +65,22 @@ exports.updatePost = async (req, res) => {
     post,
   });
 };
+
+exports.deletePost = async (req, res) => {
+  const { id } = req.params;
+  const post = await Post.findOne({ _id: id });
+
+  if (!post) {
+    return res.json({
+      successful: false,
+      post,
+    });
+  }
+
+  await Post.deleteOne({ _id: id });
+
+  return res.json({
+    successful: true,
+    post,
+  });
+};
