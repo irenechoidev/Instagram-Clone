@@ -1,9 +1,5 @@
 const Post = require('../../src/models/post');
-const {
-  createPost,
-  getPost,
-  updatePost,
-} = require('../../src/controllers/post');
+const { createPost, getPost } = require('../../src/controllers/post');
 
 test('create_post_success', async () => {
   const mockUsername = 'abcd';
