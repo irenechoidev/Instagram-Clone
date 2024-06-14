@@ -3,6 +3,7 @@ const {
   createPost,
   getPost,
   updatePost,
+  deletePost,
 } = require('../../src/controllers/post');
 
 test('create_post_success', async () => {
@@ -49,4 +50,20 @@ test('update_post_success', async () => {
 
   expect(payload.successful).toEqual(true);
   expect(payload.post).toEqual({});
+});
+
+test('delete_post_success', async () => {
+  const mockId = 'abcd';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = { json: (payload) => payload };
+
+  jest.spyOn(Post, 'findOne').mockResolvedValueOnce({});
+  jest.spyOn(Post, 'deleteOne').mockResolvedValueOnce();
+
+  const payload = await deletePost(mockReq, mockRes);
+  const isSuccessful = payload.successful;
+  const post = payload.post;
+
+  expect(isSuccessful).toEqual(true);
+  expect(post).toEqual({});
 });
