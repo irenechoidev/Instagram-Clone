@@ -6,7 +6,6 @@ const {
   deletePost,
   listPosts,
 } = require('../../src/controllers/post');
-const { mock } = require('node:test');
 
 test('create_post_success', async () => {
   const mockUsername = 'abcd';
