@@ -84,3 +84,12 @@ exports.deletePost = async (req, res) => {
     post,
   });
 };
+
+exports.listPosts = async (req, res) => {
+  const { username } = req.params;
+  const posts = await Post.find({ username: username });
+  return res.json({
+    successful: true,
+    posts,
+  });
+};

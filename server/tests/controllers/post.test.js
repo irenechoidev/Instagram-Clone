@@ -4,7 +4,9 @@ const {
   getPost,
   updatePost,
   deletePost,
+  listPosts,
 } = require('../../src/controllers/post');
+const { mock } = require('node:test');
 
 test('create_post_success', async () => {
   const mockUsername = 'abcd';
@@ -66,4 +68,19 @@ test('delete_post_success', async () => {
 
   expect(isSuccessful).toEqual(true);
   expect(post).toEqual({});
+});
+
+test('list_posts_success', async () => {
+  const mockUsername = 'abcd';
+  const mockReq = { params: { username: mockUsername } };
+  const mockRes = { json: (payload) => payload };
+
+  jest.spyOn(Post, 'find').mockResolvedValueOnce([{}]);
+
+  const payload = await listPosts(mockReq, mockRes);
+  const isSuccessful = payload.successful;
+  const posts = payload.posts;
+
+  expect(isSuccessful).toEqual(true);
+  expect(posts).toEqual([{}]);
 });
