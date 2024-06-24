@@ -88,14 +88,33 @@ test('when_Login_Returns_401_No_Token_In_Response', async () => {
 test('when_Get_User_Is_Successful', async () => {
   const mockUsername = 'abcd';
   const mockReq = { params: { username: mockUsername } };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(User, 'findOne').mockResolvedValueOnce({});
+  jest.spyOn(User, 'findOne').mockResolvedValue({});
 
-  const payload = await getUser(mockReq, mockRes);
+  await getUser(mockReq, mockRes);
 
-  expect(payload.successful).toEqual(true);
-  expect(payload.user).toEqual({});
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    user: {},
+    successful: true,
+  });
+});
+
+test('when_User_Does_Not_Exist', async () => {
+  const mockUsername = 'abcd';
+  const mockReq = { params: { username: mockUsername } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'findOne').mockResolvedValue(null);
+
+  await getUser(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    user: null,
+    successful: false,
+  });
 });
 
 const buildMockResponse = () => {
