@@ -101,6 +101,22 @@ test('when_Get_User_Is_Successful', async () => {
   });
 });
 
+test('when_User_Does_Not_Exist', async () => {
+  const mockUsername = 'abcd';
+  const mockReq = { params: { username: mockUsername } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'findOne').mockResolvedValue(null);
+
+  await getUser(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    user: null,
+    successful: false,
+  });
+});
+
 const buildMockResponse = () => {
   const mockRes = {};
   mockRes.json = jest.fn();
