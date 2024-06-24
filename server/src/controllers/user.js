@@ -52,14 +52,10 @@ exports.getUser = async (req, res) => {
   const user = await User.findOne({ username: req.params.username });
 
   if (!user) {
-    return res.json({
-      successful: false,
-      user,
-    });
+    return res
+      .status(RESOURCE_NOT_FOUND_STATUS_CODE)
+      .json({ successful: false, user });
   }
 
-  return res.json({
-    successful: true,
-    user,
-  });
+  return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };
