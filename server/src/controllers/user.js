@@ -4,7 +4,7 @@ const {
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   UNAUTHORIZED_STATUS_CODE,
-  CONFLICT_ALREADY_EXIST_STATUS_CODE,
+  RESOURCE_ALREADY_EXISTS_STATUS_CODE,
 } = require('../commons/constants');
 const { createToken } = require('../utils/createToken');
 
@@ -19,7 +19,7 @@ exports.createUser = async (req, res) => {
     });
   } catch (error) {
     return res
-      .status(CONFLICT_ALREADY_EXIST_STATUS_CODE)
+      .status(RESOURCE_ALREADY_EXISTS_STATUS_CODE)
       .json({ successful: false, token: '' });
   }
 
