@@ -15,17 +15,35 @@ test('when_Create_User_Success_Username_Encrypted_In_Token', async () => {
   const mockPassword = 'efgh';
   const mockBody = { username: mockUsername, password: mockPassword };
   const mockReq = { body: mockBody };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(User, 'create').mockResolvedValueOnce({});
+  jest.spyOn(User, 'create').mockResolvedValue({});
 
-  const payload = await createUser(mockReq, mockRes);
-  const isSuccessful = payload.successful;
-  const token = payload.token;
-  const username = jwt.decode(token).username;
+  await createUser(mockReq, mockRes);
 
-  expect(username).toEqual(mockUsername);
-  expect(isSuccessful).toEqual(true);
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    token: createToken(mockUsername),
+    successful: true,
+  });
+});
+
+test('when_username_already_exists_409_conflict', async () => {
+  const mockUsername = 'abcd';
+  const mockPassword = 'efgh';
+  const mockBody = { username: mockUsername, password: mockPassword };
+  const mockReq = { body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'create').mockRejectedValue(new Error());
+
+  await createUser(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(409);
+  expect(mockRes.json).toBeCalledWith({
+    token: '',
+    successful: false,
+  });
 });
 
 test('when_Login_Success_Username_Encrypted_In_Token', async () => {
