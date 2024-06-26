@@ -12,16 +12,17 @@ test('create_post_success', async () => {
   const mockDescription = 'This is a fake description';
   const mockBody = { username: mockUsername, description: mockDescription };
   const mockReq = { body: mockBody };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'create').mockResolvedValueOnce({});
+  jest.spyOn(Post, 'create').mockResolvedValue({});
 
-  const payload = await createPost(mockReq, mockRes);
-  const isSuccessful = payload.successful;
-  const post = payload.post;
+  await createPost(mockReq, mockRes);
 
-  expect(post).toEqual({});
-  expect(isSuccessful).toEqual(true);
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    post: {},
+  });
 });
 
 test('get_post_success', async () => {
@@ -83,3 +84,10 @@ test('list_posts_success', async () => {
   expect(isSuccessful).toEqual(true);
   expect(posts).toEqual([{}]);
 });
+
+const buildMockResponse = () => {
+  const mockRes = {};
+  mockRes.json = jest.fn();
+  mockRes.status = jest.fn(() => mockRes);
+  return mockRes;
+};
