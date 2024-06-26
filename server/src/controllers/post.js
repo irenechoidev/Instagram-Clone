@@ -1,4 +1,9 @@
 const Post = require('../models/post');
+const {
+  OK_STATUS_CODE,
+  BAD_REQUEST,
+  RESOURCE_NOT_FOUND_STATUS_CODE,
+} = require('../commons/constants');
 
 exports.createPost = async (req, res) => {
   let post = null;
@@ -10,13 +15,13 @@ exports.createPost = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
-    return res.json({
+    return res.status(BAD_REQUEST).json({
       successful: false,
       post,
     });
   }
 
-  return res.json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     post,
   });
