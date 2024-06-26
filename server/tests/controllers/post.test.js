@@ -7,7 +7,7 @@ const {
   listPosts,
 } = require('../../src/controllers/post');
 
-test('create_post_success', async () => {
+test('create_Post_Success', async () => {
   const mockUsername = 'abcd';
   const mockDescription = 'This is a fake description';
   const mockBody = { username: mockUsername, description: mockDescription };
@@ -22,6 +22,23 @@ test('create_post_success', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: true,
     post: {},
+  });
+});
+
+test('create_Post_Returns_400', async () => {
+  const mockDescription = 'This is a fake description';
+  const mockBody = { description: mockDescription };
+  const mockReq = { body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Post, 'create').mockRejectedValue(new Error());
+
+  await createPost(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(400);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    post: null,
   });
 });
 
