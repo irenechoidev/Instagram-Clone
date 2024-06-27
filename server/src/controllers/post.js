@@ -65,7 +65,7 @@ exports.updatePost = async (req, res) => {
       post,
     });
   }
-  return res.statsu(OK_STATUS_CODE).json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     post,
   });
