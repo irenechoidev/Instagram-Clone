@@ -106,19 +106,20 @@ test('delete_post_success', async () => {
   expect(post).toEqual({});
 });
 
-test('list_posts_success', async () => {
+test('list_Posts_Success', async () => {
   const mockUsername = 'abcd';
   const mockReq = { params: { username: mockUsername } };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'find').mockResolvedValueOnce([{}]);
+  jest.spyOn(Post, 'find').mockResolvedValue([{}]);
 
-  const payload = await listPosts(mockReq, mockRes);
-  const isSuccessful = payload.successful;
-  const posts = payload.posts;
+  await listPosts(mockReq, mockRes);
 
-  expect(isSuccessful).toEqual(true);
-  expect(posts).toEqual([{}]);
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    posts: [{}],
+  });
 });
 
 const buildMockResponse = () => {
