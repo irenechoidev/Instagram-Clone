@@ -34,13 +34,13 @@ exports.getPost = async (req, res) => {
   try {
     post = await Post.findOne({ _id: id });
   } catch (error) {
-    return res.json({
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
     });
   }
 
-  return res.json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     post,
   });
