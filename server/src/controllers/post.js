@@ -95,7 +95,7 @@ exports.listPosts = async (req, res) => {
 
   const posts = await Post.find({ username: username });
 
-  return res.json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     posts,
   });
