@@ -42,17 +42,36 @@ test('create_Post_Returns_400', async () => {
   });
 });
 
-test('get_post_success', async () => {
+test('when_Get_Post_Resource_Does_Not_Exist', async () => {
   const mockId = 'abcd';
   const mockReq = { params: { id: mockId } };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'findOne').mockResolvedValueOnce({});
+  jest.spyOn(Post, 'findOne').mockRejectedValue(new Error());
 
-  const payload = await getPost(mockReq, mockRes);
+  await getPost(mockReq, mockRes);
 
-  expect(payload.successful).toEqual(true);
-  expect(payload.post).toEqual({});
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    post: null,
+  });
+});
+
+test('get_Post_Success', async () => {
+  const mockId = 'abcd';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Post, 'findOne').mockResolvedValue({});
+
+  await getPost(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    post: {},
+  });
 });
 
 test('update_post_success', async () => {
