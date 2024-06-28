@@ -82,7 +82,6 @@ test('update_Post_Resource_Does_Not_Exist', async () => {
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockRejectedValue(new Error());
-  jest.spyOn(Post, 'updateOne').mockResolvedValue({});
 
   await updatePost(mockReq, mockRes);
 
