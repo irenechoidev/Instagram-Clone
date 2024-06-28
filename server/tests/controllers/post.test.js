@@ -74,20 +74,42 @@ test('get_Post_Success', async () => {
   });
 });
 
-test('update_post_success', async () => {
+test('update_Post_Resource_Does_Not_Exist', async () => {
   const mockId = 'abcd';
   const mockDescription = 'update test';
   const mockBody = { description: mockDescription };
   const mockReq = { params: { id: mockId }, body: mockBody };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'findOne').mockResolvedValueOnce({});
-  jest.spyOn(Post, 'updateOne').mockResolvedValueOnce({});
+  jest.spyOn(Post, 'findOne').mockRejectedValue(new Error());
+  jest.spyOn(Post, 'updateOne').mockResolvedValue({});
 
-  const payload = await updatePost(mockReq, mockRes);
+  await updatePost(mockReq, mockRes);
 
-  expect(payload.successful).toEqual(true);
-  expect(payload.post).toEqual({});
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    post: null,
+  });
+});
+
+test('update_Post_Success', async () => {
+  const mockId = 'abcd';
+  const mockDescription = 'update test';
+  const mockBody = { description: mockDescription };
+  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Post, 'findOne').mockResolvedValue({});
+  jest.spyOn(Post, 'updateOne').mockResolvedValue({});
+
+  await updatePost(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    post: {},
+  });
 });
 
 test('delete_post_success', async () => {
