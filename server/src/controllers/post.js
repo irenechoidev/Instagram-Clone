@@ -77,7 +77,7 @@ exports.deletePost = async (req, res) => {
   const post = await Post.findOne({ _id: id });
 
   if (!post) {
-    return res.json({
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
     });
@@ -85,7 +85,7 @@ exports.deletePost = async (req, res) => {
 
   await Post.deleteOne({ _id: id });
 
-  return res.json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     post,
   });
