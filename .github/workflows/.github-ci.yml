@@ -3,3 +3,6 @@ on:
   pull_request:
     branches:
       - main
+jobs:
+  development:
+    runs-on: ubuntu-latest
