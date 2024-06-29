@@ -1,6 +1,3 @@
-require('dotenv').config();
-
-const jwt = require('jsonwebtoken');
 const argon2 = require('argon2');
 const {
   createUser,
@@ -9,6 +6,12 @@ const {
 } = require('../../src/controllers/user');
 const User = require('../../src/models/user');
 const { createToken } = require('../../src/utils/createToken');
+
+beforeEach(() => {
+  process.env = {
+    TOKEN_SECRET: 'testSecret',
+  };
+});
 
 test('when_Create_User_Success_Username_Encrypted_In_Token', async () => {
   const mockUsername = 'abcd';
