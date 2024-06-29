@@ -16,7 +16,7 @@ jobs:
           node-version: '22.x'
 
       - name: Access server code
-        run: cd Instagram-Clone/server
+        run: ls
 
       - name: Run tests
         run: npm test
