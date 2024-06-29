@@ -111,20 +111,37 @@ test('update_Post_Success', async () => {
   });
 });
 
-test('delete_post_success', async () => {
+test('delete_Post_Success', async () => {
   const mockId = 'abcd';
   const mockReq = { params: { id: mockId } };
-  const mockRes = { json: (payload) => payload };
+  const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'findOne').mockResolvedValueOnce({});
-  jest.spyOn(Post, 'deleteOne').mockResolvedValueOnce();
+  jest.spyOn(Post, 'findOne').mockResolvedValue({});
+  jest.spyOn(Post, 'deleteOne').mockResolvedValue({});
 
-  const payload = await deletePost(mockReq, mockRes);
-  const isSuccessful = payload.successful;
-  const post = payload.post;
+  await deletePost(mockReq, mockRes);
 
-  expect(isSuccessful).toEqual(true);
-  expect(post).toEqual({});
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    post: {},
+  });
+});
+
+test('delete_Post_Resource_Does_Not_Exist', async () => {
+  const mockId = 'abcd';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Post, 'findOne').mockResolvedValue(null);
+
+  await deletePost(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    post: null,
+  });
 });
 
 test('list_Posts_Success', async () => {
