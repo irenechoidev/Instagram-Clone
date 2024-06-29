@@ -15,11 +15,6 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Access server code
-        run: cd server
-
-      - name: Check
-        run: ls
-
       - name: Run tests
         run: npm test
+        working-directory: ./server
