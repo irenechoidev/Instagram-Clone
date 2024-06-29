@@ -1,4 +1,3 @@
-yaml
 name: Instagram Clone CI
 on:
   pull_request:
