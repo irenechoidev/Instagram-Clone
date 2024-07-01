@@ -1,4 +1,8 @@
-const { BAD_REQUEST, OK_STATUS_CODE } = require('../commons/constants');
+const {
+  BAD_REQUEST,
+  OK_STATUS_CODE,
+  RESOURCE_NOT_FOUND_STATUS_CODE,
+} = require('../commons/constants');
 const Comment = require('../models/comment');
 
 exports.createComment = async (req, res) => {
@@ -20,5 +24,15 @@ exports.createComment = async (req, res) => {
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     comment,
+  });
+};
+
+exports.listComments = async (req, res) => {
+  const { postId } = req.params;
+
+  const comments = await Comment.find({ postId: postId });
+  res.status(OK_STATUS_CODE).json({
+    successful: true,
+    comments,
   });
 };
