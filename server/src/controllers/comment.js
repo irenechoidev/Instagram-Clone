@@ -5,7 +5,6 @@ exports.createComment = async (req, res) => {
   let comment = null;
 
   try {
-    await Post.findOne({ _id: req.body.postId });
     comment = await Comment.create({
       username: req.body.username,
       postId: req.body.postId,
