@@ -1,7 +1,7 @@
 const Comment = require('../../src/models/comment');
 const { createComment } = require('../../src/controllers/comment');
 
-test('create_Post_Success', async () => {
+test('create_Comment_Success', async () => {
   const mockUsername = 'abcd';
   const mockPostId = '12345abc';
   const mockText = 'This is a fake text';
