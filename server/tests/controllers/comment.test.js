@@ -2,6 +2,7 @@ const Comment = require('../../src/models/comment');
 const {
   createComment,
   listComments,
+  updateComment,
 } = require('../../src/controllers/comment');
 
 test('create_Comment_Success', async () => {
@@ -61,6 +62,43 @@ test('list_Comments_Success', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: true,
     comments: [{}],
+  });
+});
+
+test('update_Comment_Success', async () => {
+  const mockId = '1234';
+  const mockText = 'This is a fake text';
+  const mockBody = { text: mockText };
+  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Comment, 'updateOne').mockResolvedValue({});
+  jest.spyOn(Comment, 'findOne').mockResolvedValue({});
+
+  await updateComment(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    comment: {},
+  });
+});
+
+test('update_Comment_Resource_Not_Found', async () => {
+  const mockId = '1234';
+  const mockText = 'This is a fake text';
+  const mockBody = { text: mockText };
+  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Comment, 'updateOne').mockRejectedValue(new Error());
+
+  await updateComment(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    comment: null,
   });
 });
 
