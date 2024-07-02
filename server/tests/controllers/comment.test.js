@@ -1,5 +1,8 @@
 const Comment = require('../../src/models/comment');
-const { createComment } = require('../../src/controllers/comment');
+const {
+  createComment,
+  listComments,
+} = require('../../src/controllers/comment');
 
 test('create_Comment_Success', async () => {
   const mockUsername = 'abcd';
@@ -42,6 +45,22 @@ test('create_Comment_Returns_400_Bad_Request', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: false,
     comment: null,
+  });
+});
+
+test('list_Comments_Success', async () => {
+  const mockPostId = '1234abc';
+  const mockReq = { params: { mockPostId: mockPostId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Comment, 'find').mockResolvedValue([{}]);
+
+  await listComments(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    comments: [{}],
   });
 });
 
