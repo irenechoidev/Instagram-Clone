@@ -36,3 +36,29 @@ exports.listComments = async (req, res) => {
     comments,
   });
 };
+
+exports.updateComment = async (req, res) => {
+  let comment = null;
+  const { id } = req.params;
+
+  try {
+    await Comment.updateOne(
+      { _id: id },
+      {
+        text: req.body.text,
+      }
+    );
+
+    comment = await Comment.findOne({ _id: id });
+  } catch (error) {
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+      successful: false,
+      comment,
+    });
+  }
+
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    comment,
+  });
+};
