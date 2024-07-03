@@ -62,3 +62,21 @@ exports.updateComment = async (req, res) => {
     comment,
   });
 };
+
+exports.deleteComment = async (req, res) => {
+  let message = 'comment has been deleted';
+  const { id } = req.params;
+
+  try {
+    await Comment.deleteOne({ _id: id });
+  } catch (error) {
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+      successful: false,
+      message: error.message,
+    });
+  }
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    message,
+  });
+};
