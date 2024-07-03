@@ -3,6 +3,7 @@ const {
   createComment,
   listComments,
   updateComment,
+  deleteComment,
 } = require('../../src/controllers/comment');
 
 test('create_Comment_Success', async () => {
@@ -94,6 +95,39 @@ test('update_Comment_Resource_Not_Found', async () => {
   jest.spyOn(Comment, 'updateOne').mockRejectedValue(new Error());
 
   await updateComment(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    comment: null,
+  });
+});
+
+test('delete_Comment_Success', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Comment, 'findOne').mockResolvedValue({});
+  jest.spyOn(Comment, 'deleteOne').mockResolvedValue({});
+
+  await deleteComment(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    comment: {},
+  });
+});
+
+test('delete_Comment_Resource_Not_Found', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Comment, 'findOne').mockResolvedValue(null);
+
+  await deleteComment(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(404);
   expect(mockRes.json).toBeCalledWith({
