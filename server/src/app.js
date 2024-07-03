@@ -11,6 +11,7 @@ app.use(express.json());
 app.use('/user', require('./routes/user'));
 app.use('/post', require('./routes/post'));
 app.use('/comment', require('./routes/comment'));
+app.use('/like', require('./routes/like'));
 
 mongoose
   .connect(process.env.MONGO_URI)
