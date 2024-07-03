@@ -10,7 +10,7 @@ const LikeSchema = new Schema({
     type: String,
     required: true,
   },
-  createDate: {
+  createdDate: {
     type: Date,
     required: true,
   },
