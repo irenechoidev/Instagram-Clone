@@ -1,5 +1,5 @@
 const Like = require('../../src/models/like');
-const { createLike } = require('../../src/controllers/like');
+const { createLike, listLikes } = require('../../src/controllers/like');
 
 test('create_Like_Success', async () => {
   const mockPostId = '1234abc';
@@ -38,6 +38,22 @@ test('create_Like_Returns_400', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: false,
     like: null,
+  });
+});
+
+test('list_Likes_Success', async () => {
+  const mockPostId = '1234abc';
+  const mockReq = { params: { mockPostId: mockPostId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Like, 'find').mockResolvedValue([{}]);
+
+  await listLikes(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    likes: [{}],
   });
 });
 
