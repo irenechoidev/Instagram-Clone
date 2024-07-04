@@ -29,7 +29,7 @@ exports.createLike = async (req, res) => {
 exports.listLikes = async (req, res) => {
   const { postId } = req.params;
   const likes = await Like.find({ postId: postId });
-  res.status(OK_STATUS_CODE).json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     likes,
   });
@@ -46,7 +46,7 @@ exports.deleteLike = async (req, res) => {
     });
   }
   await Like.deleteOne({ _id: id });
-  res.json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     like,
   });

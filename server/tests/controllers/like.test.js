@@ -1,5 +1,9 @@
 const Like = require('../../src/models/like');
-const { createLike, listLikes } = require('../../src/controllers/like');
+const {
+  createLike,
+  listLikes,
+  deleteLike,
+} = require('../../src/controllers/like');
 
 test('create_Like_Success', async () => {
   const mockPostId = '1234abc';
@@ -54,6 +58,39 @@ test('list_Likes_Success', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: true,
     likes: [{}],
+  });
+});
+
+test('delete_Like_Success', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Like, 'findOne').mockResolvedValue({});
+  jest.spyOn(Like, 'deleteOne').mockResolvedValue({});
+
+  await deleteLike(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    like: {},
+  });
+});
+
+test('delete_Like_Resource_Not_Found', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Like, 'findOne').mockResolvedValue(null);
+
+  await deleteLike(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    like: null,
   });
 });
 
