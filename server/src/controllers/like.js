@@ -1,4 +1,8 @@
-const { BAD_REQUEST, OK_STATUS_CODE } = require('../commons/constants');
+const {
+  BAD_REQUEST,
+  OK_STATUS_CODE,
+  RESOURCE_NOT_FOUND_STATUS_CODE,
+} = require('../commons/constants');
 const Like = require('../models/like');
 
 exports.createLike = async (req, res) => {
@@ -28,5 +32,22 @@ exports.listLikes = async (req, res) => {
   res.status(OK_STATUS_CODE).json({
     successful: true,
     likes,
+  });
+};
+
+exports.deleteLike = async (req, res) => {
+  const { id } = req.params;
+  const like = await Like.findOne({ _id: id });
+
+  if (!like) {
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+      successful: false,
+      like,
+    });
+  }
+  await Like.deleteOne({ _id: id });
+  res.json({
+    successful: true,
+    like,
   });
 };
