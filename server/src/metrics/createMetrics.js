@@ -1,5 +1,6 @@
 const { MeterRegistry } = require('@opentelemetry/metrics');
 const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
+const { aggregatePostMetrics } = require('./postMetrics');
 
 exports.createMetrics = () => {
   const exporter = setUpPrometheus();
@@ -7,17 +8,11 @@ exports.createMetrics = () => {
   const meter = new MeterRegistry().getMeter(meterName);
   meter.addExporter(exporter);
 
-  // define metrics
-  const requestCountData = getRequestCountData();
-  const requestCount = meter.createCounter(
-    requestCountData.name,
-    requestCountData.metadata
-  );
-
+  const postMetrics = aggregatePostMetrics(meter);
   const labels = meter.labels({});
 
   return {
-    requestCount,
+    ...postMetrics,
     labels,
   };
 };
@@ -38,13 +33,4 @@ const setUpPrometheus = () => {
   );
 
   return exporter;
-};
-
-const getRequestCountData = () => {
-  return {
-    name: 'request_count',
-    metadata: {
-      description: 'Counts total number of requests',
-    },
-  };
 };

@@ -163,10 +163,13 @@ test('list_Posts_Success', async () => {
 });
 
 const buildMockRequest = () => {
-  const mockReq = { metrics: { requestCount: {} } };
-  const { requestCount } = mockReq.metrics;
-  requestCount.bind = jest.fn(() => requestCount);
-  requestCount.add = jest.fn();
+  const mockReq = { metrics: {} };
+
+  mockReq.metrics.getPostRequestCount = {};
+  const { getPostRequestCount } = mockReq.metrics;
+  getPostRequestCount.bind = jest.fn(() => getPostRequestCount);
+  getPostRequestCount.add = jest.fn();
+
   return mockReq;
 };
 
