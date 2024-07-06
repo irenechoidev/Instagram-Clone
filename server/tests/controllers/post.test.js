@@ -44,7 +44,8 @@ test('create_Post_Returns_400', async () => {
 
 test('when_Get_Post_Resource_Does_Not_Exist', async () => {
   const mockId = 'abcd';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockRejectedValue(new Error());
@@ -60,11 +61,12 @@ test('when_Get_Post_Resource_Does_Not_Exist', async () => {
 
 test('get_Post_Success', async () => {
   const mockId = 'abcd';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockResolvedValue({});
-
   await getPost(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(200);
@@ -159,6 +161,14 @@ test('list_Posts_Success', async () => {
     posts: [{}],
   });
 });
+
+const buildMockRequest = () => {
+  const mockReq = { metrics: { requestCount: {} } };
+  const { requestCount } = mockReq.metrics;
+  requestCount.bind = jest.fn(() => requestCount);
+  requestCount.add = jest.fn();
+  return mockReq;
+};
 
 const buildMockResponse = () => {
   const mockRes = {};
