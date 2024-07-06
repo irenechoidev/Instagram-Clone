@@ -30,6 +30,9 @@ exports.createPost = async (req, res) => {
 exports.getPost = async (req, res) => {
   let post = null;
   const { id } = req.params;
+  const { requestCount, labels } = req.metrics;
+
+  requestCount.bind(labels).add(1);
 
   try {
     post = await Post.findOne({ _id: id });
