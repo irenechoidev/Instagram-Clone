@@ -28,20 +28,30 @@ exports.createPost = async (req, res) => {
 };
 
 exports.getPost = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   let post = null;
   const { id } = req.params;
-  const { getPostRequestCount, labels } = req.metrics;
+  const { getPostRequestCount, getPostLatency, labels } = req.metrics;
 
   getPostRequestCount.bind(labels).add(1);
 
   try {
     post = await Post.findOne({ _id: id });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    console.log(latency);
+    getPostLatency.bind(labels).set(latency);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  console.log(latency);
+  getPostLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
