@@ -40,7 +40,6 @@ exports.getPost = async (req, res) => {
     post = await Post.findOne({ _id: id });
   } catch (error) {
     const latency = new Date().getTime() - requestRecieved;
-    console.log(latency);
     getPostLatency.bind(labels).set(latency);
 
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
@@ -50,7 +49,6 @@ exports.getPost = async (req, res) => {
   }
 
   const latency = new Date().getTime() - requestRecieved;
-  console.log(latency);
   getPostLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
