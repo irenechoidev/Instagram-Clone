@@ -166,9 +166,14 @@ const buildMockRequest = () => {
   const mockReq = { metrics: {} };
 
   mockReq.metrics.getPostRequestCount = {};
-  const { getPostRequestCount } = mockReq.metrics;
+  mockReq.metrics.getPostLatency = {};
+
+  const { getPostRequestCount, getPostLatency } = mockReq.metrics;
+
   getPostRequestCount.bind = jest.fn(() => getPostRequestCount);
   getPostRequestCount.add = jest.fn();
+  getPostLatency.bind = jest.fn(() => getPostLatency);
+  getPostLatency.set = jest.fn();
 
   return mockReq;
 };
