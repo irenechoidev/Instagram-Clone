@@ -19,6 +19,7 @@ app.use('/user', require('./routes/user'));
 app.use('/post', require('./routes/post'));
 app.use('/comment', require('./routes/comment'));
 app.use('/like', require('./routes/like'));
+app.use('/follow', require('./routes/follow'));
 
 mongoose
   .connect(process.env.MONGO_URI)
