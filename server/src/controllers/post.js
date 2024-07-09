@@ -104,6 +104,9 @@ exports.deletePost = async (req, res) => {
 
 exports.listPosts = async (req, res) => {
   const { username } = req.params;
+  const { listPostsRequestCount, labels } = req.metrics;
+
+  listPostsRequestCount.bind(labels).add(1);
 
   const posts = await Post.find({ username: username });
 
