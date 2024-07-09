@@ -148,7 +148,8 @@ test('delete_Post_Resource_Does_Not_Exist', async () => {
 
 test('list_Posts_Success', async () => {
   const mockUsername = 'abcd';
-  const mockReq = { params: { username: mockUsername } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { username: mockUsername };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'find').mockResolvedValue([{}]);
@@ -174,6 +175,12 @@ const buildMockRequest = () => {
   getPostRequestCount.add = jest.fn();
   getPostLatency.bind = jest.fn(() => getPostLatency);
   getPostLatency.set = jest.fn();
+
+  mockReq.metrics.listPostsRequestCount = {};
+  const { listPostsRequestCount } = mockReq.metrics;
+
+  listPostsRequestCount.bind = jest.fn(() => listPostsRequestCount);
+  listPostsRequestCount.add = jest.fn();
 
   return mockReq;
 };
