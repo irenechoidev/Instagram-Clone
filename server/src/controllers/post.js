@@ -103,12 +103,17 @@ exports.deletePost = async (req, res) => {
 };
 
 exports.listPosts = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   const { username } = req.params;
-  const { listPostsRequestCount, labels } = req.metrics;
+  const { listPostsRequestCount, listPostsLatency, labels } = req.metrics;
 
   listPostsRequestCount.bind(labels).add(1);
 
   const posts = await Post.find({ username: username });
+
+  const latency = new Date().getTime() - requestRecieved;
+  listPostsLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,

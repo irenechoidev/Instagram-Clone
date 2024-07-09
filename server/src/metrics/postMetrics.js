@@ -1,6 +1,7 @@
 const GET_POST_REQUEST_COUNT = 'GetPost_RequestCount';
 const GET_POST_LATENCY = 'GetPost_Latency';
 const LIST_POSTS_REQUEST_COUNT = 'ListPosts_RequestCount';
+const LIST_POSTS_LATENCY = 'ListPosts_Latency';
 
 exports.aggregatePostMetrics = (meter) => {
   const getPostRequestCountData = buildGetPostRequestCountData();
@@ -21,10 +22,17 @@ exports.aggregatePostMetrics = (meter) => {
     listPostsRequestCountData.metadata
   );
 
+  const listPostsLatencyData = buildListPostsLatencyData();
+  const listPostsLatency = meter.createGauge(
+    listPostsLatencyData.name,
+    listPostsLatencyData.metadata
+  );
+
   return {
     getPostRequestCount,
     getPostLatency,
     listPostsRequestCount,
+    listPostsLatency,
   };
 };
 
@@ -51,6 +59,15 @@ const buildListPostsRequestCountData = () => {
     name: LIST_POSTS_REQUEST_COUNT,
     metadata: {
       description: 'Counts total number of ListPosts API requests',
+    },
+  };
+};
+
+const buildListPostsLatencyData = () => {
+  return {
+    name: LIST_POSTS_LATENCY,
+    metadata: {
+      description: 'Records the latency of listPosts API',
     },
   };
 };

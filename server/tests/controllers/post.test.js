@@ -150,6 +150,7 @@ test('list_Posts_Success', async () => {
   const mockUsername = 'abcd';
   const mockReq = buildMockRequest();
   mockReq.params = { username: mockUsername };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'find').mockResolvedValue([{}]);
@@ -177,10 +178,14 @@ const buildMockRequest = () => {
   getPostLatency.set = jest.fn();
 
   mockReq.metrics.listPostsRequestCount = {};
-  const { listPostsRequestCount } = mockReq.metrics;
+  mockReq.metrics.listPostsLatency = {};
+
+  const { listPostsRequestCount, listPostsLatency } = mockReq.metrics;
 
   listPostsRequestCount.bind = jest.fn(() => listPostsRequestCount);
   listPostsRequestCount.add = jest.fn();
+  listPostsLatency.bind = jest.fn(() => listPostsLatency);
+  listPostsLatency.set = jest.fn();
 
   return mockReq;
 };
