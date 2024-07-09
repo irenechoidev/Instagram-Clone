@@ -1,7 +1,7 @@
 const GET_POST_REQUEST_COUNT = 'GetPost_RequestCount';
 const GET_POST_LATENCY = 'GetPost_Latency';
 const LIST_POSTS_REQUEST_COUNT = 'ListPosts_RequestCount';
-const LIST_POSTS_LATENCY = 'listPosts_Latency';
+const LIST_POSTS_LATENCY = 'ListPosts_Latency';
 
 exports.aggregatePostMetrics = (meter) => {
   const getPostRequestCountData = buildGetPostRequestCountData();

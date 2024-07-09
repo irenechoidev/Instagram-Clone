@@ -147,9 +147,9 @@ test('delete_Post_Resource_Does_Not_Exist', async () => {
 });
 
 test('list_Posts_Success', async () => {
-  const mockId = 'abcd';
+  const mockUsername = 'abcd';
   const mockReq = buildMockRequest();
-  mockReq.params = { id: mockId };
+  mockReq.params = { username: mockUsername };
 
   const mockRes = buildMockResponse();
 
