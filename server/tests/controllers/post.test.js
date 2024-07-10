@@ -29,7 +29,7 @@ test('create_Post_Returns_400', async () => {
   const mockDescription = 'This is a fake description';
   const mockBody = { description: mockDescription };
   const mockReq = buildMockRequest();
-  mockReq.body = { body: mockBody };
+  mockReq.body = mockBody;
 
   const mockRes = buildMockResponse();
 
