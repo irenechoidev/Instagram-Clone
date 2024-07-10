@@ -10,8 +10,8 @@ const {
 test('create_Post_Success', async () => {
   const mockUsername = 'abcd';
   const mockDescription = 'This is a fake description';
-  const mockBody = { username: mockUsername, description: mockDescription };
-  const mockReq = { body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.body = { username: mockUsername, description: mockDescription };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'create').mockResolvedValue({});
@@ -28,7 +28,9 @@ test('create_Post_Success', async () => {
 test('create_Post_Returns_400', async () => {
   const mockDescription = 'This is a fake description';
   const mockBody = { description: mockDescription };
-  const mockReq = { body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.body = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'create').mockRejectedValue(new Error());
@@ -186,6 +188,13 @@ const buildMockRequest = () => {
   listPostsRequestCount.add = jest.fn();
   listPostsLatency.bind = jest.fn(() => listPostsLatency);
   listPostsLatency.set = jest.fn();
+
+  mockReq.metrics.createPostRequestCount = {};
+
+  const { createPostRequestCount } = mockReq.metrics;
+
+  createPostRequestCount.bind = jest.fn(() => createPostRequestCount);
+  createPostRequestCount.add = jest.fn();
 
   return mockReq;
 };
