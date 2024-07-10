@@ -1,4 +1,8 @@
-const { BAD_REQUEST, OK_STATUS_CODE } = require('../commons/constants');
+const {
+  BAD_REQUEST,
+  OK_STATUS_CODE,
+  RESOURCE_NOT_FOUND_STATUS_CODE,
+} = require('../commons/constants');
 const Follow = require('../models/follow');
 
 exports.createFollow = async (req, res) => {
@@ -17,6 +21,23 @@ exports.createFollow = async (req, res) => {
     });
   }
 
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    follow,
+  });
+};
+
+exports.deleteFollow = async (req, res) => {
+  const { id } = req.params;
+  const follow = await Follow.findOne({ _id: id });
+
+  if (!follow) {
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+      successful: false,
+      follow,
+    });
+  }
+  await Follow.deleteOne({ _id: id });
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     follow,
