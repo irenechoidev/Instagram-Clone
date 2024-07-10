@@ -1,5 +1,5 @@
 const Follow = require('../../src/models/follow');
-const { createFollow } = require('../../src/controllers/follow');
+const { createFollow, deleteFollow } = require('../../src/controllers/follow');
 
 test('create_Follow_Success', async () => {
   const mockOwner = 'abc';
@@ -35,6 +35,39 @@ test('create_Follow_returns_400', async () => {
   await createFollow(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(400);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    follow: null,
+  });
+});
+
+test('delete_Follow_Success', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Follow, 'findOne').mockResolvedValue({});
+  jest.spyOn(Follow, 'deleteOne').mockResolvedValue({});
+
+  await deleteFollow(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    follow: {},
+  });
+});
+
+test('delete_Follow_Resource_Not_Found', async () => {
+  const mockId = '1234';
+  const mockReq = { params: { id: mockId } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Follow, 'findOne').mockResolvedValue(null);
+
+  await deleteFollow(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
   expect(mockRes.json).toBeCalledWith({
     successful: false,
     follow: null,
