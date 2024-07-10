@@ -8,6 +8,10 @@ const {
 exports.createPost = async (req, res) => {
   let post = null;
 
+  const { createPostRequestCount, labels } = req.metrics;
+
+  createPostRequestCount.bind(labels).add(1);
+
   try {
     post = await Post.create({
       username: req.body.username,
