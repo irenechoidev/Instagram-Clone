@@ -204,10 +204,13 @@ const buildMockRequest = () => {
   createPostLatency.set = jest.fn();
 
   mockReq.metrics.updatePostRequestCount = {};
-  const { updatePostRequestCount } = mockReq.metrics;
+  mockReq.metrics.updatePostLatency = {};
+  const { updatePostRequestCount, updatePostLatency } = mockReq.metrics;
 
   updatePostRequestCount.bind = jest.fn(() => updatePostRequestCount);
   updatePostRequestCount.add = jest.fn();
+  updatePostLatency.bind = jest.fn(() => updatePostLatency);
+  updatePostLatency.set = jest.fn();
 
   return mockReq;
 };
