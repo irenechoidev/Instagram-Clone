@@ -109,6 +109,10 @@ exports.updatePost = async (req, res) => {
 
 exports.deletePost = async (req, res) => {
   const { id } = req.params;
+
+  const { deletePostRequestCount, labels } = req.metrics;
+  deletePostRequestCount.bind(labels).add(1);
+
   const post = await Post.findOne({ _id: id });
 
   if (!post) {

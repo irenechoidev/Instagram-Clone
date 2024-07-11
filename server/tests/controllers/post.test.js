@@ -121,7 +121,8 @@ test('update_Post_Success', async () => {
 
 test('delete_Post_Success', async () => {
   const mockId = 'abcd';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockResolvedValue({});
@@ -138,7 +139,8 @@ test('delete_Post_Success', async () => {
 
 test('delete_Post_Resource_Does_Not_Exist', async () => {
   const mockId = 'abcd';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockResolvedValue(null);
@@ -211,6 +213,12 @@ const buildMockRequest = () => {
   updatePostRequestCount.add = jest.fn();
   updatePostLatency.bind = jest.fn(() => updatePostLatency);
   updatePostLatency.set = jest.fn();
+
+  mockReq.metrics.deletePostRequestCount = {};
+  const { deletePostRequestCount } = mockReq.metrics;
+
+  deletePostRequestCount.bind = jest.fn(() => deletePostRequestCount);
+  deletePostRequestCount.add = jest.fn();
 
   return mockReq;
 };
