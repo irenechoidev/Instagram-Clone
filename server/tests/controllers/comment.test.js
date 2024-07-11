@@ -52,7 +52,7 @@ test('create_Comment_Returns_400_Bad_Request', async () => {
 
 test('list_Comments_Success', async () => {
   const mockPostId = '1234abc';
-  const mockReq = { params: { mockPostId: mockPostId } };
+  const mockReq = { params: { postId: mockPostId } };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'find').mockResolvedValue([{}]);
