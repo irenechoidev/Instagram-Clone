@@ -82,7 +82,9 @@ test('update_Post_Resource_Does_Not_Exist', async () => {
   const mockId = 'abcd';
   const mockDescription = 'update test';
   const mockBody = { description: mockDescription };
-  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
+  mockReq.body = mockBody;
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockRejectedValue(new Error());
@@ -100,7 +102,9 @@ test('update_Post_Success', async () => {
   const mockId = 'abcd';
   const mockDescription = 'update test';
   const mockBody = { description: mockDescription };
-  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
+  mockReq.body = mockBody;
   const mockRes = buildMockResponse();
 
   jest.spyOn(Post, 'findOne').mockResolvedValue({});
@@ -198,6 +202,12 @@ const buildMockRequest = () => {
   createPostRequestCount.add = jest.fn();
   createPostLatency.bind = jest.fn(() => createPostLatency);
   createPostLatency.set = jest.fn();
+
+  mockReq.metrics.updatePostRequestCount = {};
+  const { updatePostRequestCount } = mockReq.metrics;
+
+  updatePostRequestCount.bind = jest.fn(() => updatePostRequestCount);
+  updatePostRequestCount.add = jest.fn();
 
   return mockReq;
 };
