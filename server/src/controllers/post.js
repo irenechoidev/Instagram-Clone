@@ -70,10 +70,12 @@ exports.getPost = async (req, res) => {
 };
 
 exports.updatePost = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   let post = null;
   const { id } = req.params;
 
-  const { updatePostRequestCount, labels } = req.metrics;
+  const { updatePostRequestCount, updatePostLatency, labels } = req.metrics;
 
   updatePostRequestCount.bind(labels).add(1);
 
@@ -87,11 +89,17 @@ exports.updatePost = async (req, res) => {
 
     post = await Post.findOne({ _id: id });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    updatePostLatency.bind(labels).set(latency);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  updatePostLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
