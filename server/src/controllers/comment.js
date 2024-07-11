@@ -31,7 +31,7 @@ exports.listComments = async (req, res) => {
   const { postId } = req.params;
 
   const comments = await Comment.find({ postId: postId });
-  res.status(OK_STATUS_CODE).json({
+  return res.status(OK_STATUS_CODE).json({
     successful: true,
     comments,
   });

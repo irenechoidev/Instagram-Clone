@@ -27,6 +27,16 @@ exports.createFollow = async (req, res) => {
   });
 };
 
+exports.listFollowers = async (req, res) => {
+  const { username } = req.params;
+
+  const followers = await Follow.find({ owner: username });
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    followers,
+  });
+};
+
 exports.deleteFollow = async (req, res) => {
   const { id } = req.params;
   const follow = await Follow.findOne({ _id: id });
