@@ -6,9 +6,11 @@ const {
 } = require('../commons/constants');
 
 exports.createPost = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   let post = null;
 
-  const { createPostRequestCount, labels } = req.metrics;
+  const { createPostRequestCount, createPostLatency, labels } = req.metrics;
 
   createPostRequestCount.bind(labels).add(1);
 
@@ -19,11 +21,17 @@ exports.createPost = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    createPostLatency.bind(labels).set(latency);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       post,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createPostLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
