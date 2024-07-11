@@ -73,6 +73,10 @@ exports.updatePost = async (req, res) => {
   let post = null;
   const { id } = req.params;
 
+  const { updatePostRequestCount, labels } = req.metrics;
+
+  updatePostRequestCount.bind(labels).add(1);
+
   try {
     await Post.updateOne(
       { _id: id },
