@@ -158,10 +158,13 @@ test('list_Posts_Success', async () => {
   const mockUsername = 'abcd';
   const mockReq = buildMockRequest();
   mockReq.params = { username: mockUsername };
+  mockReq.query = { pageSize: 10, page: 1 };
 
   const mockRes = buildMockResponse();
 
-  jest.spyOn(Post, 'find').mockResolvedValue([{}]);
+  Post.find = jest.fn(() => Post);
+  Post.skip = jest.fn(() => Post);
+  Post.limit = jest.fn(() => [{}]);
 
   await listPosts(mockReq, mockRes);
 

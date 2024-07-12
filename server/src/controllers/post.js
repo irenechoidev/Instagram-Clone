@@ -3,7 +3,9 @@ const {
   OK_STATUS_CODE,
   BAD_REQUEST,
   RESOURCE_NOT_FOUND_STATUS_CODE,
+  DEFAULT_LIST_POSTS_LIMIT,
 } = require('../commons/constants');
+const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createPost = async (req, res) => {
   const requestRecieved = new Date().getTime();
@@ -146,7 +148,12 @@ exports.listPosts = async (req, res) => {
 
   listPostsRequestCount.bind(labels).add(1);
 
-  const posts = await Post.find({ username: username });
+  const pageSize = req.query.pageSize || DEFAULT_LIST_POSTS_LIMIT;
+  const page = getPageNumber(req.query.page);
+
+  const posts = await Post.find({ username: username })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
 
   const latency = new Date().getTime() - requestRecieved;
   listPostsLatency.bind(labels).set(latency);
@@ -155,4 +162,16 @@ exports.listPosts = async (req, res) => {
     successful: true,
     posts,
   });
+};
+
+exports.createTestPosts = async (req, res) => {
+  for (let i = 0; i < DEFAULT_LIST_POSTS_LIMIT; i++) {
+    await Post.create({
+      username: req.body.username,
+      description: `Test post number ${i}`,
+      createdDate: new Date(),
+    });
+  }
+
+  res.json({ successful: true });
 };
