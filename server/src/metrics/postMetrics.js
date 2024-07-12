@@ -7,6 +7,7 @@ const CREATE_POST_LATENCY = 'CreatePost_Latency';
 const UPDATE_POST_REQUEST_COUNT = 'UpdatePost_RequestCount';
 const UPDATE_POST_LATENCY = 'UpdatePost_Latency';
 const DELETE_POST_REQUEST_COUNT = 'DeletePost_RequestCount';
+const DELETE_POST_LATENCY = 'DeletePost_Latency';
 
 exports.aggregatePostMetrics = (meter) => {
   const getPostRequestCountData = buildGetPostRequestCountData();
@@ -63,6 +64,12 @@ exports.aggregatePostMetrics = (meter) => {
     deletePostRequestCountData.metadata
   );
 
+  const deletePostLatencyData = buildDeletePostLatencyData();
+  const deletePostLatency = meter.createGauge(
+    deletePostLatencyData.name,
+    deletePostLatencyData.metadata
+  );
+
   return {
     getPostRequestCount,
     getPostLatency,
@@ -73,6 +80,7 @@ exports.aggregatePostMetrics = (meter) => {
     updatePostRequestCount,
     updatePostLatency,
     deletePostRequestCount,
+    deletePostLatency,
   };
 };
 
@@ -153,6 +161,15 @@ const buildDeletePostRequestCountData = () => {
     name: DELETE_POST_REQUEST_COUNT,
     metadata: {
       description: 'Counts total number of DeletePost API requests',
+    },
+  };
+};
+
+const buildDeletePostLatencyData = () => {
+  return {
+    name: DELETE_POST_LATENCY,
+    metadata: {
+      description: 'Records the latency of deletePost API',
     },
   };
 };
