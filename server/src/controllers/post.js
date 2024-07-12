@@ -108,14 +108,19 @@ exports.updatePost = async (req, res) => {
 };
 
 exports.deletePost = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   const { id } = req.params;
 
-  const { deletePostRequestCount, labels } = req.metrics;
+  const { deletePostRequestCount, deletePostLatency, labels } = req.metrics;
   deletePostRequestCount.bind(labels).add(1);
 
   const post = await Post.findOne({ _id: id });
 
   if (!post) {
+    const latency = new Date().getTime() - requestRecieved;
+    deletePostLatency.bind(labels).set(latency);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
@@ -123,6 +128,9 @@ exports.deletePost = async (req, res) => {
   }
 
   await Post.deleteOne({ _id: id });
+
+  const latency = new Date().getTime() - requestRecieved;
+  deletePostLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
