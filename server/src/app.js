@@ -20,6 +20,7 @@ app.use('/post', require('./routes/post'));
 app.use('/comment', require('./routes/comment'));
 app.use('/like', require('./routes/like'));
 app.use('/follow', require('./routes/follow'));
+app.use('/notification', require('./routes/notification'));
 
 mongoose
   .connect(process.env.MONGO_URI)
