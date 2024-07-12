@@ -115,7 +115,7 @@ const buildListPostsLatencyData = () => {
   return {
     name: LIST_POSTS_LATENCY,
     metadata: {
-      description: 'Records the latency of listPosts API',
+      description: 'Records the latency of ListPosts API',
     },
   };
 };
@@ -133,7 +133,7 @@ const buildCreatePostLatencyData = () => {
   return {
     name: CREATE_POST_LATENCY,
     metadata: {
-      description: 'Records the latency of createPost API',
+      description: 'Records the latency of CreatePost API',
     },
   };
 };
@@ -151,7 +151,7 @@ const buildUpdatePostLatencyData = () => {
   return {
     name: UPDATE_POST_LATENCY,
     metadata: {
-      description: 'Records the latency of updatePost API',
+      description: 'Records the latency of UpdatePost API',
     },
   };
 };
@@ -169,7 +169,7 @@ const buildDeletePostLatencyData = () => {
   return {
     name: DELETE_POST_LATENCY,
     metadata: {
-      description: 'Records the latency of deletePost API',
+      description: 'Records the latency of DeletePost API',
     },
   };
 };
