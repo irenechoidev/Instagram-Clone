@@ -2,10 +2,6 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const NotificationSchema = new Schema({
-  postId: {
-    type: String,
-    required: true,
-  },
   owner: {
     type: String,
     required: true,
@@ -14,9 +10,9 @@ const NotificationSchema = new Schema({
     type: String,
     required: true,
   },
-  text: {
-    type: String,
-    retuired: false,
+  read: {
+    type: Boolean,
+    required: true,
   },
   createdDate: {
     type: Date,
