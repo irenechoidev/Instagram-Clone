@@ -37,6 +37,16 @@ exports.listFollowers = async (req, res) => {
   });
 };
 
+exports.listFollowing = async (req, res) => {
+  const { username } = req.params;
+
+  const following = await Follow.find({ following: username });
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    following,
+  });
+};
+
 exports.deleteFollow = async (req, res) => {
   const { id } = req.params;
   const follow = await Follow.findOne({ _id: id });
