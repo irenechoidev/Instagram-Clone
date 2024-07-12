@@ -3,6 +3,7 @@ const {
   createFollow,
   deleteFollow,
   listFollowers,
+  listFollowing,
 } = require('../../src/controllers/follow');
 
 test('create_Follow_Success', async () => {
@@ -58,6 +59,22 @@ test('list_Followers_Success', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: true,
     followers: [{}],
+  });
+});
+
+test('list_Following_SUccess', async () => {
+  const mockUsername = 'abc';
+  const mockReq = { params: { following: mockUsername } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Follow, 'find').mockResolvedValue([{}]);
+
+  await listFollowing(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    following: [{}],
   });
 });
 
