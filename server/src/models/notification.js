@@ -6,7 +6,7 @@ const NotificationSchema = new Schema({
     type: String,
     required: true,
   },
-  notificator: {
+  sender: {
     type: String,
     required: true,
   },
