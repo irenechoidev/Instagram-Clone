@@ -169,9 +169,20 @@ exports.createTestPosts = async (req, res) => {
     await Post.create({
       username: req.body.username,
       description: `Test post number ${i}`,
+      isTest: true,
       createdDate: new Date(),
     });
   }
 
   res.json({ successful: true });
+};
+
+exports.cleanTestPosts = async (_, res) => {
+  try {
+    await Post.deleteMany({ isTest: true });
+  } catch (error) {
+    return res.json({ successful: false });
+  }
+
+  return res.json({ successful: true });
 };

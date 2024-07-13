@@ -14,6 +14,10 @@ const PostSchema = new Schema({
     type: Date,
     required: true,
   },
+  isTest: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const Post = mongoose.model('post', PostSchema);
