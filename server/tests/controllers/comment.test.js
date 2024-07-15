@@ -53,9 +53,14 @@ test('create_Comment_Returns_400_Bad_Request', async () => {
 test('list_Comments_Success', async () => {
   const mockPostId = '1234abc';
   const mockReq = { params: { postId: mockPostId } };
+  mockReq.query = { pageSize: 10, page: 1 };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'find').mockResolvedValue([{}]);
+
+  Comment.find = jest.fn(() => Comment);
+  Comment.skip = jest.fn(() => Comment);
+  Comment.limit = jest.fn(() => [{}]);
 
   await listComments(mockReq, mockRes);
 

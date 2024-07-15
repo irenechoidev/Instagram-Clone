@@ -2,8 +2,10 @@ const {
   BAD_REQUEST,
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
+  DEFAULT_LIST_COMMENTS_LIMIT,
 } = require('../commons/constants');
 const Comment = require('../models/comment');
+const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createComment = async (req, res) => {
   let comment = null;
@@ -30,7 +32,13 @@ exports.createComment = async (req, res) => {
 exports.listComments = async (req, res) => {
   const { postId } = req.params;
 
-  const comments = await Comment.find({ postId: postId });
+  const pageSize = req.query.pageSize || DEFAULT_LIST_COMMENTS_LIMIT;
+  const page = getPageNumber(req.query.page);
+
+  const comments = await Comment.find({ postId: postId })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     comments,
@@ -80,4 +88,26 @@ exports.deleteComment = async (req, res) => {
     successful: true,
     comment,
   });
+};
+
+exports.createTestComments = async (req, res) => {
+  for (let i = 0; i < DEFAULT_LIST_COMMENTS_LIMIT; i++) {
+    await Comment.create({
+      username: req.body.username,
+      postId: req.body.postId,
+      text: `Test comment number ${i}`,
+      isTest: true,
+      createdDate: new Date(),
+    });
+  }
+  res.json({ successful: true });
+};
+
+exports.cleanTestComments = async (_, res) => {
+  try {
+    await Comment.deleteMany({ isTest: true });
+  } catch (error) {
+    return res.json({ successful: false });
+  }
+  return res.json({ successful: true });
 };
