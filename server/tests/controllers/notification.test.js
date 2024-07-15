@@ -1,0 +1,56 @@
+const Notification = require('../../src/models/notification');
+const { createNotification } = require('../../src/controllers/notification');
+
+test('create_Notification_success', async () => {
+  const mockOwner = 'abc';
+  const mockSender = 'xyz';
+  const mockRead = true;
+  const mockBody = {
+    owner: mockOwner,
+    sender: mockSender,
+    read: mockRead,
+  };
+  const mockReq = { body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Notification, 'create').mockResolvedValue({});
+
+  await createNotification(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    notification: {},
+  });
+});
+
+test('create_Notification_returns_400', async () => {
+  const mockOwner = 'abc';
+  const mockSender = 'xyz';
+  const mockRead = true;
+  const mockBody = {
+    owner: mockOwner,
+    sender: mockSender,
+    read: mockRead,
+  };
+  const mockReq = { body: mockBody };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Notification, 'create').mockRejectedValue(new Error());
+
+  await createNotification(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(400);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    notification: null,
+  });
+});
+
+const buildMockResponse = () => {
+  const mockRes = {};
+  mockRes.json = jest.fn();
+  mockRes.status = jest.fn(() => mockRes);
+
+  return mockRes;
+};
