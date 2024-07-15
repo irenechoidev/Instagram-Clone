@@ -13,7 +13,7 @@ exports.createNotification = async (req, res) => {
     });
   } catch (error) {
     return res.status(BAD_REQUEST).json({
-      successful: true,
+      successful: false,
       notification,
     });
   }
