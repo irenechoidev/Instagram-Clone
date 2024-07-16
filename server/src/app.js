@@ -10,7 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 const metrics = createMetrics();
-app.use((req, res, next) => {
+app.use((req, _, next) => {
   req.metrics = metrics;
   next();
 });

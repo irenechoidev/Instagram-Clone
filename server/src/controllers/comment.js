@@ -10,6 +10,10 @@ const { getPageNumber } = require('../utils/getPageNumber');
 exports.createComment = async (req, res) => {
   let comment = null;
 
+  const { createCommentRequestCount, labels } = req.metrics;
+
+  createCommentRequestCount.bind(labels).add(1);
+
   try {
     comment = await Comment.create({
       username: req.body.username,

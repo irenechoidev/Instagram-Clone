@@ -10,12 +10,13 @@ test('create_Comment_Success', async () => {
   const mockUsername = 'abcd';
   const mockPostId = '12345abc';
   const mockText = 'This is a fake text';
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     username: mockUsername,
     postId: mockPostId,
     text: mockText,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'create').mockResolvedValue({});
@@ -32,11 +33,12 @@ test('create_Comment_Success', async () => {
 test('create_Comment_Returns_400_Bad_Request', async () => {
   const mockPostId = '12345abc';
   const mockText = 'This is a fake text';
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     postId: mockPostId,
     text: mockText,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'create').mockRejectedValue(new Error());
@@ -146,4 +148,17 @@ const buildMockResponse = () => {
   mockRes.json = jest.fn();
   mockRes.status = jest.fn(() => mockRes);
   return mockRes;
+};
+
+const buildMockRequest = () => {
+  const mockReq = { metrics: {} };
+
+  mockReq.metrics.createCommentRequestCount = {};
+
+  const { createCommentRequestCount } = mockReq.metrics;
+
+  createCommentRequestCount.bind = jest.fn(() => createCommentRequestCount);
+  createCommentRequestCount.add = jest.fn();
+
+  return mockReq;
 };
