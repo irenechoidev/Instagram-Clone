@@ -8,9 +8,11 @@ const Comment = require('../models/comment');
 const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createComment = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   let comment = null;
 
-  const { createCommentRequestCount, labels } = req.metrics;
+  const { createCommentRequestCount, createCommentLatency, labels } =
+    req.metrics;
 
   createCommentRequestCount.bind(labels).add(1);
 
@@ -22,11 +24,18 @@ exports.createComment = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    createCommentLatency.bind(labels).set(latency);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       comment,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createCommentLatency.bind(labels).set(latency);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     comment,
