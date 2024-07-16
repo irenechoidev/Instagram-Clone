@@ -25,9 +25,9 @@ exports.createNotification = async (req, res) => {
 };
 
 exports.listNotifications = async (req, res) => {
-  const { owner } = req.params;
+  const { username } = req.params;
 
-  const notifications = await Notification.find({ owner: owner });
+  const notifications = await Notification.find({ owner: username });
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
