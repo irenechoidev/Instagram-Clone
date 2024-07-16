@@ -1,5 +1,8 @@
 const Notification = require('../../src/models/notification');
-const { createNotification } = require('../../src/controllers/notification');
+const {
+  createNotification,
+  listNotifications,
+} = require('../../src/controllers/notification');
 
 test('create_Notification_success', async () => {
   const mockOwner = 'abc';
@@ -44,6 +47,22 @@ test('create_Notification_returns_400', async () => {
   expect(mockRes.json).toBeCalledWith({
     successful: false,
     notification: null,
+  });
+});
+
+test('list_Notifications_Success', async () => {
+  const mockUsername = 'abcd';
+  const mockReq = { params: { username: mockUsername } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Notification, 'find').mockResolvedValue([{}]);
+
+  await listNotifications(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    notifications: [{}],
   });
 });
 
