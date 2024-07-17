@@ -2,6 +2,7 @@ const Notification = require('../../src/models/notification');
 const {
   createNotification,
   listNotifications,
+  updateNotifications,
 } = require('../../src/controllers/notification');
 
 test('create_Notification_success', async () => {
@@ -58,6 +59,23 @@ test('list_Notifications_Success', async () => {
   jest.spyOn(Notification, 'find').mockResolvedValue([{}]);
 
   await listNotifications(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    notifications: [{}],
+  });
+});
+
+test('update_Notification_Success', async () => {
+  const mockUsername = 'abcd';
+  const mockReq = { params: { username: mockUsername } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(Notification, 'updateMany').mockResolvedValue([{}]);
+  jest.spyOn(Notification, 'find').mockResolvedValue([{}]);
+
+  await updateNotifications(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(200);
   expect(mockRes.json).toBeCalledWith({
