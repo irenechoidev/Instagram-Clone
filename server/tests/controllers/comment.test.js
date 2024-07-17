@@ -54,7 +54,8 @@ test('create_Comment_Returns_400_Bad_Request', async () => {
 
 test('list_Comments_Success', async () => {
   const mockPostId = '1234abc';
-  const mockReq = { params: { postId: mockPostId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { postId: mockPostId };
   mockReq.query = { pageSize: 10, page: 1 };
   const mockRes = buildMockResponse();
 
@@ -162,6 +163,13 @@ const buildMockRequest = () => {
   createCommentRequestCount.add = jest.fn();
   createCommentLatency.bind = jest.fn(() => createCommentLatency);
   createCommentLatency.set = jest.fn();
+
+  mockReq.metrics.listCommentsRequestCount = {};
+
+  const { listCommentsRequestCount } = mockReq.metrics;
+
+  listCommentsRequestCount.bind = jest.fn(() => listCommentsRequestCount);
+  listCommentsRequestCount.add = jest.fn();
 
   return mockReq;
 };

@@ -45,6 +45,10 @@ exports.createComment = async (req, res) => {
 exports.listComments = async (req, res) => {
   const { postId } = req.params;
 
+  const { listCommentsRequestCount, labels } = req.metrics;
+
+  listCommentsRequestCount.bind(labels).add(1);
+
   const pageSize = req.query.pageSize || DEFAULT_LIST_COMMENTS_LIMIT;
   const page = getPageNumber(req.query.page);
 
