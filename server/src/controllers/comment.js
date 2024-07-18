@@ -43,9 +43,10 @@ exports.createComment = async (req, res) => {
 };
 
 exports.listComments = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   const { postId } = req.params;
 
-  const { listCommentsRequestCount, labels } = req.metrics;
+  const { listCommentsRequestCount, listCommentsLatency, labels } = req.metrics;
 
   listCommentsRequestCount.bind(labels).add(1);
 
@@ -55,6 +56,9 @@ exports.listComments = async (req, res) => {
   const comments = await Comment.find({ postId: postId })
     .skip((page - 1) * pageSize)
     .limit(pageSize);
+
+  const latency = new Date().getTime() - requestRecieved;
+  listCommentsLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
