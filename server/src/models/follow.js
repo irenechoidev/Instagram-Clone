@@ -10,6 +10,10 @@ const FollowSchema = new Schema({
     type: String,
     required: true,
   },
+  isTest: {
+    type: Boolean,
+    default: false,
+  },
   createdDate: {
     type: Date,
     required: true,
