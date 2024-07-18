@@ -3,6 +3,7 @@ const CREATE_COMMENT_LATENCY = 'CreateComment_Latency';
 const LIST_COMMENTS_REQUEST_COUNT = 'ListComments_RequestCount';
 const LIST_COMMENTS_LATENCY = 'ListComments_Latency';
 const UPDATE_COMMENT_REQUEST_COUNT = 'UpdateComment_RequestCount';
+const UPDATE_COMMENT_LATENCY = 'UpdateComment_Latency';
 
 exports.aggregateCommentMetrics = (meter) => {
   const createCommentRequestCountData = buildCreateCommentRequestCountData();
@@ -35,12 +36,19 @@ exports.aggregateCommentMetrics = (meter) => {
     updateCommentRequestCountData.metadata
   );
 
+  const updateCommentLatencyData = buildUpdateCommentLatencyData();
+  const updateCommentLatency = meter.createGauge(
+    updateCommentLatencyData.name,
+    updateCommentLatencyData.metadata
+  );
+
   return {
     createCommentRequestCount: createCommentRequestCount,
     createCommentLatency: createCommentLatency,
     listCommentsRequestCount: listCommentsRequestCount,
     listCommentsLatency: listCommentsLatency,
     updateCommentRequestCount: updateCommentRequestCount,
+    updateCommentLatency: updateCommentLatency,
   };
 };
 
@@ -85,6 +93,15 @@ const buildUpdateCommentRequestCountData = () => {
     name: UPDATE_COMMENT_REQUEST_COUNT,
     metadata: {
       description: 'Count total number of UpdateComment API requests',
+    },
+  };
+};
+
+const buildUpdateCommentLatencyData = () => {
+  return {
+    name: UPDATE_COMMENT_LATENCY,
+    metadata: {
+      description: 'Recoreds the latency of UpdateComment API',
     },
   };
 };

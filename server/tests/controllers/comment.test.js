@@ -177,11 +177,14 @@ const buildMockRequest = () => {
   listCommentsLatency.set = jest.fn();
 
   mockReq.metrics.updateCommentRequestCount = {};
+  mockReq.metrics.updateCommentLatency = {};
 
-  const { updateCommentRequestCount } = mockReq.metrics;
+  const { updateCommentRequestCount, updateCommentLatency } = mockReq.metrics;
 
   updateCommentRequestCount.bind = jest.fn(() => updateCommentRequestCount);
   updateCommentRequestCount.add = jest.fn();
+  updateCommentLatency.bind = jest.fn(() => updateCommentLatency);
+  updateCommentLatency.set = jest.fn();
 
   return mockReq;
 };
