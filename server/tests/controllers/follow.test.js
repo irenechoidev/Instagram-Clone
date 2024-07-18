@@ -48,10 +48,18 @@ test('create_Follow_returns_400', async () => {
 
 test('list_Followers_Success', async () => {
   const mockUsername = 'abc';
-  const mockReq = { params: { username: mockUsername } };
+  const mockReq = {
+    params: { username: mockUsername },
+    query: { pageSize: 10, page: 1 },
+  };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'find').mockResolvedValue([{}]);
+
+  Follow.find = jest.fn(() => Follow);
+  Follow.skip = jest.fn(() => Follow);
+  Follow.limit = jest.fn(() => [{}]);
 
   await listFollowers(mockReq, mockRes);
 
