@@ -67,10 +67,12 @@ exports.listComments = async (req, res) => {
 };
 
 exports.updateComment = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   let comment = null;
   const { id } = req.params;
 
-  const { updateCommentRequestCount, labels } = req.metrics;
+  const { updateCommentRequestCount, updateCommentLatency, labels } =
+    req.metrics;
 
   updateCommentRequestCount.bind(labels).add(1);
 
@@ -84,11 +86,17 @@ exports.updateComment = async (req, res) => {
 
     comment = await Comment.findOne({ _id: id });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    updateCommentLatency.bind(labels).set(latency);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       comment,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  updateCommentLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
