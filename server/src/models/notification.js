@@ -14,6 +14,10 @@ const NotificationSchema = new Schema({
     type: Boolean,
     required: true,
   },
+  isTest: {
+    type: Boolean,
+    default: false,
+  },
   createdDate: {
     type: Date,
     required: true,

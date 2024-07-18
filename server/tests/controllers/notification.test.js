@@ -53,10 +53,18 @@ test('create_Notification_returns_400', async () => {
 
 test('list_Notifications_Success', async () => {
   const mockUsername = 'abcd';
-  const mockReq = { params: { username: mockUsername } };
+  const mockReq = {
+    params: { username: mockUsername },
+    query: { pageSize: 10, page: 1 },
+  };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Notification, 'find').mockResolvedValue([{}]);
+
+  Notification.find = jest.fn(() => Notification);
+  Notification.skip = jest.fn(() => Notification);
+  Notification.limit = jest.fn(() => [{}]);
 
   await listNotifications(mockReq, mockRes);
 
