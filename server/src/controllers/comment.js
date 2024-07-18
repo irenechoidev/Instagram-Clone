@@ -70,6 +70,10 @@ exports.updateComment = async (req, res) => {
   let comment = null;
   const { id } = req.params;
 
+  const { updateCommentRequestCount, labels } = req.metrics;
+
+  updateCommentRequestCount.bind(labels).add(1);
+
   try {
     await Comment.updateOne(
       { _id: id },

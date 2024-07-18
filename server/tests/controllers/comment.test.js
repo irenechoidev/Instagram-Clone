@@ -77,8 +77,9 @@ test('list_Comments_Success', async () => {
 test('update_Comment_Success', async () => {
   const mockId = '1234';
   const mockText = 'This is a fake text';
-  const mockBody = { text: mockText };
-  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.body = { text: mockText };
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'updateOne').mockResolvedValue({});
@@ -96,8 +97,9 @@ test('update_Comment_Success', async () => {
 test('update_Comment_Resource_Not_Found', async () => {
   const mockId = '1234';
   const mockText = 'This is a fake text';
-  const mockBody = { text: mockText };
-  const mockReq = { params: { id: mockId }, body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.body = { text: mockText };
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'updateOne').mockRejectedValue(new Error());
@@ -173,6 +175,13 @@ const buildMockRequest = () => {
   listCommentsRequestCount.add = jest.fn();
   listCommentsLatency.bind = jest.fn(() => listCommentsLatency);
   listCommentsLatency.set = jest.fn();
+
+  mockReq.metrics.updateCommentRequestCount = {};
+
+  const { updateCommentRequestCount } = mockReq.metrics;
+
+  updateCommentRequestCount.bind = jest.fn(() => updateCommentRequestCount);
+  updateCommentRequestCount.add = jest.fn();
 
   return mockReq;
 };
