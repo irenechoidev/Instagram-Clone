@@ -115,7 +115,8 @@ test('update_Comment_Resource_Not_Found', async () => {
 
 test('delete_Comment_Success', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'findOne').mockResolvedValue({});
@@ -132,7 +133,8 @@ test('delete_Comment_Success', async () => {
 
 test('delete_Comment_Resource_Not_Found', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Comment, 'findOne').mockResolvedValue(null);
@@ -185,6 +187,13 @@ const buildMockRequest = () => {
   updateCommentRequestCount.add = jest.fn();
   updateCommentLatency.bind = jest.fn(() => updateCommentLatency);
   updateCommentLatency.set = jest.fn();
+
+  mockReq.metrics.deleteCommentRequestCount = {};
+
+  const { deleteCommentRequestCount } = mockReq.metrics;
+
+  deleteCommentRequestCount.bind = jest.fn(() => deleteCommentRequestCount);
+  deleteCommentRequestCount.add = jest.fn();
 
   return mockReq;
 };
