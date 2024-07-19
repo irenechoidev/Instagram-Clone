@@ -108,6 +108,9 @@ exports.deleteComment = async (req, res) => {
   const { id } = req.params;
   const comment = await Comment.findOne({ _id: id });
 
+  const { deleteCommentRequestCount, labels } = req.metrics;
+  deleteCommentRequestCount.bind(labels).add(1);
+
   if (!comment) {
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
