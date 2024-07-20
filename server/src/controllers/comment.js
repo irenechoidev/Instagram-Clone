@@ -105,13 +105,18 @@ exports.updateComment = async (req, res) => {
 };
 
 exports.deleteComment = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   const { id } = req.params;
   const comment = await Comment.findOne({ _id: id });
 
-  const { deleteCommentRequestCount, labels } = req.metrics;
+  const { deleteCommentRequestCount, deleteCommentLatency, labels } =
+    req.metrics;
   deleteCommentRequestCount.bind(labels).add(1);
 
   if (!comment) {
+    const latency = new Date().getTime() - requestRecieved;
+    deleteCommentLatency.bind(labels).set(latency);
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       comment,
@@ -119,6 +124,9 @@ exports.deleteComment = async (req, res) => {
   }
 
   await Comment.deleteOne({ _id: id });
+
+  const latency = new Date().getTime() - requestRecieved;
+  deleteCommentLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
