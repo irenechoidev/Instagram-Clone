@@ -3,6 +3,7 @@ const {
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_FOLLOWERS_LIMIT,
+  DEFAULT_LIST_FOLLOWING_LIMIT,
 } = require('../commons/constants');
 const Follow = require('../models/follow');
 const { getPageNumber } = require('../utils/getPageNumber');
@@ -48,7 +49,13 @@ exports.listFollowers = async (req, res) => {
 exports.listFollowing = async (req, res) => {
   const { username } = req.params;
 
-  const following = await Follow.find({ following: username });
+  const pageSize = req.query.pageSize || DEFAULT_LIST_FOLLOWING_LIMIT;
+  const page = getPageNumber(req.query.page);
+
+  const following = await Follow.find({ following: username })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     following,
