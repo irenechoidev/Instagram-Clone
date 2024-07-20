@@ -189,11 +189,14 @@ const buildMockRequest = () => {
   updateCommentLatency.set = jest.fn();
 
   mockReq.metrics.deleteCommentRequestCount = {};
+  mockReq.metrics.deleteCommentLatency = {};
 
-  const { deleteCommentRequestCount } = mockReq.metrics;
+  const { deleteCommentRequestCount, deleteCommentLatency } = mockReq.metrics;
 
   deleteCommentRequestCount.bind = jest.fn(() => deleteCommentRequestCount);
   deleteCommentRequestCount.add = jest.fn();
+  deleteCommentLatency.bind = jest.fn(() => deleteCommentLatency);
+  deleteCommentLatency.set = jest.fn();
 
   return mockReq;
 };

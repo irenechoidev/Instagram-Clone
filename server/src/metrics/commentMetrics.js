@@ -5,6 +5,7 @@ const LIST_COMMENTS_LATENCY = 'ListComments_Latency';
 const UPDATE_COMMENT_REQUEST_COUNT = 'UpdateComment_RequestCount';
 const UPDATE_COMMENT_LATENCY = 'UpdateComment_Latency';
 const DELETE_COMMENT_REQUEST_COUNT = 'DeleteComment_RequestCount';
+const DELETE_COMMENT_LATENCY = 'DeleteComment_Latency';
 
 exports.aggregateCommentMetrics = (meter) => {
   const createCommentRequestCountData = buildCreateCommentRequestCountData();
@@ -49,6 +50,12 @@ exports.aggregateCommentMetrics = (meter) => {
     deleteCommentRequestCountData.metadata
   );
 
+  const deleteCommentLatencyData = buildDeleteCommentLatencyData();
+  const deleteCommentLatency = meter.createGauge(
+    deleteCommentLatencyData.name,
+    deleteCommentLatencyData.metadata
+  );
+
   return {
     createCommentRequestCount: createCommentRequestCount,
     createCommentLatency: createCommentLatency,
@@ -57,6 +64,7 @@ exports.aggregateCommentMetrics = (meter) => {
     updateCommentRequestCount: updateCommentRequestCount,
     updateCommentLatency: updateCommentLatency,
     deleteCommentRequestCount: deleteCommentRequestCount,
+    deleteCommentLatency: deleteCommentLatency,
   };
 };
 
@@ -119,6 +127,15 @@ const buildDeleteCommentRequestCountData = () => {
     name: DELETE_COMMENT_REQUEST_COUNT,
     metadata: {
       description: 'Count total number of DeleteComment API requests',
+    },
+  };
+};
+
+const buildDeleteCommentLatencyData = () => {
+  return {
+    name: DELETE_COMMENT_LATENCY,
+    metadata: {
+      description: 'Records the latency of DeleteComment API',
     },
   };
 };
