@@ -1,14 +1,14 @@
 import React from 'react';
 import './css/post.css';
 
-const Post = () => {
+const Post = ({ imgURL, profilePic, username }) => {
   return (
     <div className='post-container'>
       <header>
-        <img src='test.jpg' alt='test profile' />
-        <p>username</p>
+        <img src={profilePic} alt='test profile' />
+        <p>{username}</p>
       </header>
-      <img src='test.jpg' alt='test post' />
+      <img src={imgURL} alt='test post' />
     </div>
   );
 };

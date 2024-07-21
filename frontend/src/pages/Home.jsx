@@ -4,7 +4,7 @@ import Post from '../components/Post';
 const Home = () => {
   return (
     <>
-      <Post />
+      <Post imgURL='test.jpg' profilePic='test.jpg' username='username' />
     </>
   );
 };
