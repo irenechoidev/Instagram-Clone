@@ -19,5 +19,6 @@ describe('<Post />', () => {
     expect(wrapper.props().username).toEqual(postProps.username);
     expect(wrapper.props().imgURL).toEqual(postProps.imgURL);
     expect(wrapper.props().profilePic).toEqual(postProps.profilePic);
+    expect(wrapper.props().description).toEqual(postProps.description);
   });
 });
