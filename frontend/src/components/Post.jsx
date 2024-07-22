@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/post.css';
 
-const Post = ({ imgURL, profilePic, username }) => {
+const Post = ({ imgURL, profilePic, username, description }) => {
   return (
     <div className='post-container'>
       <header>
@@ -9,6 +9,12 @@ const Post = ({ imgURL, profilePic, username }) => {
         <p>{username}</p>
       </header>
       <img src={imgURL} alt='test post' />
+      <footer>
+        <div className='post-description'>
+          <h3>{username}</h3>
+          <p>{description}</p>
+        </div>
+      </footer>
     </div>
   );
 };
