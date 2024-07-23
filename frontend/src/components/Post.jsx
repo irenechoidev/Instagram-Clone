@@ -3,6 +3,7 @@ import './css/post.css';
 
 const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
   const mockLikesCount = 30;
+  const mockCommentCount = 10;
 
   return (
     <div className='post-container'>
@@ -17,10 +18,18 @@ const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
 
       <footer>
         <div className='post-likes'>{mockLikesCount} likes</div>
+
         <div className='post-description'>
           <h3>{username}</h3>
           <p>{description}</p>
         </div>
+
+        <div className='post-comment'>
+          {!mockCommentCount && <p>Add a comment...</p>}
+          {mockCommentCount === 1 && <p>View {mockCommentCount} comment</p>}
+          {mockCommentCount > 1 && <p>View all {mockCommentCount} comments</p>}
+        </div>
+
         <div className='post-create-date'>{createdAt.toDateString()}</div>
       </footer>
     </div>
