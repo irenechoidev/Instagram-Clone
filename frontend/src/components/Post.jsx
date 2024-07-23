@@ -1,7 +1,7 @@
 import React from 'react';
 import './css/post.css';
 
-const Post = ({ imgURL, profilePic, username, description }) => {
+const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
   return (
     <div className='post-container'>
       <header>
@@ -18,7 +18,7 @@ const Post = ({ imgURL, profilePic, username, description }) => {
           <h3>{username}</h3>
           <p>{description}</p>
         </div>
-        <div className='post-createdDate'>{new Date().toDateString()}</div>
+        <div className='post-create-date'>{createdAt.toDateString()}</div>
       </footer>
     </div>
   );
