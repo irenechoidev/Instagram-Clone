@@ -8,12 +8,17 @@ const Post = ({ imgURL, profilePic, username, description }) => {
         <img src={profilePic} alt='test profile' />
         <p>{username}</p>
       </header>
-      <img src={imgURL} alt='test post' />
+
+      <main>
+        <img src={imgURL} alt='test post' />
+      </main>
+
       <footer>
         <div className='post-description'>
           <h3>{username}</h3>
           <p>{description}</p>
         </div>
+        <div className='post-createdDate'>{new Date().toDateString()}</div>
       </footer>
     </div>
   );
