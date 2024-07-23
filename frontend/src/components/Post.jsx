@@ -1,5 +1,7 @@
 import React from 'react';
 import './css/post.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 
 const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
   const mockLikesCount = 30;
@@ -17,6 +19,14 @@ const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
       </main>
 
       <footer>
+        <div className='post-buttons-container'>
+          <div className='post-like-button'>
+            <FontAwesomeIcon icon={faHeart} />
+          </div>
+          <div className='post-comment-button'>
+            <FontAwesomeIcon icon={faComment} />
+          </div>
+        </div>
         <div className='post-likes'>{mockLikesCount} likes</div>
 
         <div className='post-description'>
