@@ -32,6 +32,34 @@
     height: 500px;
 }
 
+.post-container footer {
+    margin-left: 10px;
+}
+.post-container .post-buttons-container {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+}
+
+.post-container .post-buttons-container .post-like-button {
+    font-size: 26px;
+}
+
+.post-container .post-buttons-container .post-like-button:hover {
+    color:rgb(184, 183, 183);
+    cursor: pointer;
+}
+
+.post-container .post-buttons-container .post-comment-button {
+    margin-left: 20px;
+    font-size: 25px;
+}
+
+.post-container .post-buttons-container .post-comment-button:hover {
+    color:rgb(184, 183, 183);
+    cursor: pointer;
+}
+
 .post-container .post-likes {
     font-weight: bold;
     font-size: 17px;
