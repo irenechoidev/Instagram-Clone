@@ -9,6 +9,7 @@ const Home = () => {
         profilePic='test.jpg'
         username='username'
         description='description description'
+        createdAt={new Date()}
       />
     </>
   );
