@@ -2,6 +2,8 @@ import React from 'react';
 import './css/post.css';
 
 const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
+  const mockLikesCount = 30;
+
   return (
     <div className='post-container'>
       <header>
@@ -14,6 +16,7 @@ const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
       </main>
 
       <footer>
+        <div className='post-likes'>{mockLikesCount} likes</div>
         <div className='post-description'>
           <h3>{username}</h3>
           <p>{description}</p>
