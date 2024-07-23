@@ -2,7 +2,7 @@
     display: grid;
     grid-template-rows: 0.1fr 3fr auto;
     max-width: 500px;
-    margin: auto;
+    margin: 50px auto;
     font-family: 'Arial';
 }
 
