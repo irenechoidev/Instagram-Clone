@@ -1,5 +1,4 @@
 const Post = require('../models/post');
-const { createUpload } = require('../utils/createUpload');
 const {
   OK_STATUS_CODE,
   BAD_REQUEST,
@@ -10,42 +9,36 @@ const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createPost = async (req, res) => {
   const requestRecieved = new Date().getTime();
+  const { createPostRequestCount, createPostLatency, labels } = req.metrics;
+  createPostRequestCount.bind(labels).add(1);
 
-  const upload = createUpload();
+  const file = req.file;
+  const imgURL = file ? file.filename : null;
+  let post = null;
 
-  upload(req, res, async () => {
-    const file = req.file;
-    const imgURL = file ? file.filename : null;
-    let post = null;
-
-    const { createPostRequestCount, createPostLatency, labels } = req.metrics;
-
-    createPostRequestCount.bind(labels).add(1);
-
-    try {
-      post = await Post.create({
-        username: req.body.username,
-        description: req.body.description,
-        imgURL,
-        createdDate: new Date(),
-      });
-    } catch (error) {
-      const latency = new Date().getTime() - requestRecieved;
-      createPostLatency.bind(labels).set(latency);
-
-      return res.status(BAD_REQUEST).json({
-        successful: false,
-        post,
-      });
-    }
-
+  try {
+    post = await Post.create({
+      username: req.body.username,
+      description: req.body.description,
+      imgURL,
+      createdDate: new Date(),
+    });
+  } catch (error) {
     const latency = new Date().getTime() - requestRecieved;
     createPostLatency.bind(labels).set(latency);
 
-    return res.status(OK_STATUS_CODE).json({
-      successful: true,
+    return res.status(BAD_REQUEST).json({
+      successful: false,
       post,
     });
+  }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createPostLatency.bind(labels).set(latency);
+
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    post,
   });
 };
 
