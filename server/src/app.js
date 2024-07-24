@@ -5,10 +5,11 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 const { createMetrics } = require('./metrics/createMetrics');
+const { EXPRESS_STATIC_PATH } = require('./commons/constants');
 
 const app = express();
 app.use(cors());
-app.use(express.static(path.join(__dirname, '../public')));
+app.use(express.static(path.join(__dirname, '../', EXPRESS_STATIC_PATH)));
 app.use(express.json());
 
 const metrics = createMetrics();
