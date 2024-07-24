@@ -9,5 +9,5 @@ export const getCommentsText = (commentCount) => {
   if (!commentCount) return 'Add a comment...';
   else if (commentCount === 1) return `View ${commentCount} comment`;
 
-  return `View ${commentCount} comments`;
+  return `View all ${commentCount} comments`;
 };
