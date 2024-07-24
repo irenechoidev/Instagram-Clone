@@ -7,6 +7,7 @@ const postProps = {
   imgURL: 'imgURL',
   profilePic: 'profilePic',
   username: 'username',
+  description: 'description',
   createdAt: new Date(),
 };
 

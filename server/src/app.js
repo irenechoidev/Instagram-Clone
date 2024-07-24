@@ -3,10 +3,12 @@ require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const { createMetrics } = require('./metrics/createMetrics');
 
 const app = express();
 app.use(cors());
+app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.json());
 
 const metrics = createMetrics();
