@@ -9,17 +9,18 @@ const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createPost = async (req, res) => {
   const requestRecieved = new Date().getTime();
-
-  let post = null;
-
   const { createPostRequestCount, createPostLatency, labels } = req.metrics;
-
   createPostRequestCount.bind(labels).add(1);
+
+  const file = req.file;
+  const imgURL = file ? file.filename : null;
+  let post = null;
 
   try {
     post = await Post.create({
       username: req.body.username,
       description: req.body.description,
+      imgURL,
       createdDate: new Date(),
     });
   } catch (error) {
