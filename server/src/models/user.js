@@ -12,6 +12,10 @@ const UserSchema = new Schema({
     type: String,
     required: true,
   },
+  profilePic: {
+    type: String,
+    required: false,
+  },
   createdDate: {
     type: Date,
     required: false,
