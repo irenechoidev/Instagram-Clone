@@ -7,6 +7,7 @@ const {
   RESOURCE_ALREADY_EXISTS_STATUS_CODE,
 } = require('../commons/constants');
 const { createToken } = require('../utils/createToken');
+const { removeImageFromStorage } = require('../utils/removeImageFromStorage');
 
 exports.createUser = async (req, res) => {
   const hashedPassword = await argon2.hash(req.body.password);
@@ -59,6 +60,32 @@ exports.getUser = async (req, res) => {
       .status(RESOURCE_NOT_FOUND_STATUS_CODE)
       .json({ successful: false, user });
   }
+
+  return res.status(OK_STATUS_CODE).json({ successful: true, user });
+};
+
+exports.updateProfilePic = async (req, res) => {
+  const { filename } = req.file;
+  let user = await User.findOne({ username: req.params.username });
+
+  if (!user) {
+    removeImageFromStorage(filename);
+
+    return res
+      .status(RESOURCE_NOT_FOUND_STATUS_CODE)
+      .json({ successful: false, user });
+  }
+
+  // Remove old profile picture from object storage if it exists
+  if (user.profilePic) {
+    removeImageFromStorage(user.profilePic);
+  }
+
+  // Update the database with the new reference to the image
+  await User.updateOne(
+    { username: req.params.username },
+    { profilePic: filename }
+  );
 
   return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };
