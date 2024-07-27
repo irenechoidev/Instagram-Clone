@@ -89,3 +89,24 @@ exports.updateProfilePic = async (req, res) => {
 
   return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };
+
+exports.updateUsername = async (req, res) => {
+  let user = null;
+  const username = req.body.username;
+  const id = req.params.id;
+
+  try {
+    await User.updateOne({ _id: id }, { username });
+    user = await User.findOne({ _id: id });
+  } catch (err) {
+    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+      successful: false,
+      user,
+    });
+  }
+
+  return res.status(OK_STATUS_CODE).json({
+    successful: true,
+    user,
+  });
+};
