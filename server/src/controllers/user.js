@@ -91,7 +91,7 @@ exports.updateProfilePic = async (req, res) => {
 };
 
 exports.updateUsername = async (req, res) => {
-  let user;
+  let user = null;
   const username = req.body.username;
   const id = req.params.id;
 
