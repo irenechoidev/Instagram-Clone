@@ -5,7 +5,6 @@ const {
   RESOURCE_NOT_FOUND_STATUS_CODE,
   UNAUTHORIZED_STATUS_CODE,
   RESOURCE_ALREADY_EXISTS_STATUS_CODE,
-  BAD_REQUEST,
 } = require('../commons/constants');
 const { createToken } = require('../utils/createToken');
 const { removeImageFromStorage } = require('../utils/removeImageFromStorage');
