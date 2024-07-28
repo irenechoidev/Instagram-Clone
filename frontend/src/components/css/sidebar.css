@@ -1,0 +1,39 @@
+.sidebar {
+    margin-right: 15px;
+    border-right: 1px solid #c8c8c8;
+    font-family: 'Arial';
+}
+
+.sidebar section {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.sidebar section p {
+    position: relative;
+    margin-left: 15px;
+    top: 2px;
+}
+
+.sidebar section:nth-last-child(2) p {
+    margin-left: 5px;
+}
+
+.sidebar section:last-child p {
+    top: 0px;
+}
+
+.sidebar section img {
+    position: relative;
+    right: 10px;
+    border-radius: 50%;
+    width: 28px;
+    height: 28px;
+}
+
+.sidebar section:hover {
+    background: #e5e3e3;
+    font-weight: bold;
+}

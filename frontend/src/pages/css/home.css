@@ -1,0 +1,9 @@
+.home-container {
+    display: grid;
+    grid-template-columns: 0.4fr auto;
+    height: 100vh;
+}
+
+.home-container .posts-list {
+    overflow: auto;
+}

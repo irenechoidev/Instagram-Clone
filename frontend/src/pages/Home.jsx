@@ -1,5 +1,7 @@
 import React from 'react';
 import Post from '../components/Post';
+import './css/home.css';
+import Sidebar from '../components/Sidebar';
 
 const Home = () => {
   const post = {
@@ -13,16 +15,20 @@ const Home = () => {
   const listOfPosts = [post, post, post, post];
 
   return (
-    <div>
-      {listOfPosts.map((p) => (
-        <Post
-          imgURL={p.imgURL}
-          profilePic={p.profilePic}
-          username={p.username}
-          description={p.description}
-          createdAt={p.createdAt}
-        />
-      ))}
+    <div className='home-container'>
+      <Sidebar />
+
+      <main className='posts-list'>
+        {listOfPosts.map((p) => (
+          <Post
+            imgURL={p.imgURL}
+            profilePic={p.profilePic}
+            username={p.username}
+            description={p.description}
+            createdAt={p.createdAt}
+          />
+        ))}
+      </main>
     </div>
   );
 };
