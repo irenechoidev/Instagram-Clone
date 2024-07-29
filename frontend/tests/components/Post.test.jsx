@@ -8,7 +8,7 @@ const postProps = {
   profilePic: 'profilePic',
   username: 'username',
   description: 'description',
-  createdAt: new Date(),
+  createdDate: new Date(),
 };
 
 beforeEach(() => {
@@ -22,6 +22,6 @@ describe('<Post />', () => {
     expect(wrapper.props().imgURL).toEqual(postProps.imgURL);
     expect(wrapper.props().profilePic).toEqual(postProps.profilePic);
     expect(wrapper.props().description).toEqual(postProps.description);
-    expect(wrapper.props().createdAt).toEqual(postProps.createdAt);
+    expect(wrapper.props().createdDate).toEqual(postProps.createdDate);
   });
 });
