@@ -24,7 +24,7 @@ const Home = () => {
             profilePic={p.profilePic}
             username={p.username}
             description={p.description}
-            createdAt={p.createdAt}
+            createdDate={p.createdDate}
           />
         ))}
       </main>

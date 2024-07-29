@@ -8,8 +8,8 @@ export const listPosts = () => {
       imgURL: 'test.jpg',
       profilePic: 'test.jpg',
       username: `user${i}`,
-      dexcription: 'description description',
-      createdAt: new Date(),
+      description: 'description description',
+      createdDate: new Date(),
     });
   }
   return posts;
