@@ -27,10 +27,11 @@
 
 .sidebar section img {
     position: relative;
-    right: 10px;
+    right: 5px;
+    top:1px;
     border-radius: 50%;
-    width: 28px;
-    height: 28px;
+    width: 24px;
+    height: 24px;
 }
 
 .sidebar section:hover {

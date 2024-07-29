@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faComment } from '@fortawesome/free-regular-svg-icons';
 import { getCommentsText, getLikesText } from '../utils/formatText';
 
-const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
+const Post = ({ imgURL, profilePic, username, description, createdDate }) => {
   const mockLikesCount = 0;
   const mockCommentCount = 10;
 
@@ -41,7 +41,7 @@ const Post = ({ imgURL, profilePic, username, description, createdAt }) => {
 
         <div className='post-comment'>{commentsText}</div>
 
-        <div className='post-create-date'>{createdAt.toDateString()}</div>
+        <div className='post-create-date'>{createdDate.toDateString()}</div>
       </footer>
     </div>
   );
