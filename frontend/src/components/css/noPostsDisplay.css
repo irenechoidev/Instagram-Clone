@@ -1,0 +1,18 @@
+.no-posts-display-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 250px;
+    min-width: 300px;
+}
+
+.no-posts-display-container .camera-icon {
+    font-size: 200px;
+    color: #b5b4b4;
+}
+
+.no-posts-display-container p {
+    font-family: Arial;
+    font-size: 45px;
+    color: #dedddd;
+}

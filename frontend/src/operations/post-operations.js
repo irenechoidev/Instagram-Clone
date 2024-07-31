@@ -7,7 +7,7 @@ export const listPosts = () => {
       _id: i,
       imgURL: 'test.jpg',
       profilePic: 'test.jpg',
-      username: `user${i}`,
+      username: `username${i}`,
       description: 'description description',
       createdDate: new Date(),
     });
