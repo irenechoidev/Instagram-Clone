@@ -99,7 +99,7 @@ exports.updateUsername = async (req, res) => {
     await User.updateOne({ _id: id }, { username });
     user = await User.findOne({ _id: id });
   } catch (err) {
-    return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
+    return res.status(RESOURCE_ALREADY_EXISTS_STATUS_CODE).json({
       successful: false,
       user,
     });
