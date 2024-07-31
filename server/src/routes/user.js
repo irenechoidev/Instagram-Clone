@@ -10,5 +10,6 @@ router.post('/login', userController.loginUser);
 router.get('/:username', userController.getUser);
 router.put('/profilepic/:username', upload, userController.updateProfilePic);
 router.put('/update_username/:id', userController.updateUsername);
+router.put('/update_password/:username', userController.updatePassword);
 
 module.exports = router;

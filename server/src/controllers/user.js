@@ -110,3 +110,22 @@ exports.updateUsername = async (req, res) => {
     user,
   });
 };
+
+exports.updatePassword = async (req, res) => {
+  let user = null;
+  const hashedPassword = await argon2.hash(req.body.password);
+
+  await User.updateOne(
+    { username: req.params.username },
+    { password: hashedPassword }
+  );
+  user = await User.findOne({ username: req.params.username });
+
+  if (!user) {
+    return res
+      .status(RESOURCE_NOT_FOUND_STATUS_CODE)
+      .json({ successful: false, user });
+  }
+
+  return res.status(OK_STATUS_CODE).json({ successful: true, user });
+};
