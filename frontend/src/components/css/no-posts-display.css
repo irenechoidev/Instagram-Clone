@@ -1,4 +1,4 @@
-.no-posts-display-container {
+.no-posts-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -6,12 +6,12 @@
     min-width: 300px;
 }
 
-.no-posts-display-container .camera-icon {
+.no-posts-container .camera-icon {
     font-size: 200px;
     color: #b5b4b4;
 }
 
-.no-posts-display-container p {
+.no-posts-container p {
     font-family: Arial;
     font-size: 45px;
     color: #dedddd;

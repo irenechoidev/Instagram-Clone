@@ -9,7 +9,7 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   useEffect(() => {
-    setPosts([]);
+    setPosts(listPosts());
   }, []);
 
   return (
