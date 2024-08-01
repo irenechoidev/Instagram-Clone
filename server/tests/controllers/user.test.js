@@ -4,6 +4,7 @@ const {
   loginUser,
   getUser,
   updateUsername,
+  updatePassword,
 } = require('../../src/controllers/user');
 const User = require('../../src/models/user');
 const { createToken } = require('../../src/utils/createToken');
@@ -161,7 +162,7 @@ test('when_Update_Username_409_Conflict', async () => {
   const mockUsername = 'abcd';
   const mockId = 'xyz';
   const mockReq = { body: { username: mockUsername }, params: { id: mockId } };
-  const mockRes = (buildMockRes = buildMockResponse());
+  const mockRes = buildMockResponse();
 
   jest.spyOn(User, 'findOne').mockRejectedValue(new Error());
 
@@ -180,3 +181,45 @@ const buildMockResponse = () => {
   mockRes.status = jest.fn(() => mockRes);
   return mockRes;
 };
+
+test('when_Update_Password_Success', async () => {
+  const mockUsername = 'abcd';
+  const mockPassword = 'xyz';
+  const mockReq = {
+    params: { username: mockUsername },
+    body: { password: mockPassword },
+  };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'updateOne').mockResolvedValue({});
+  jest.spyOn(User, 'findOne').mockResolvedValue({});
+
+  await updatePassword(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    user: {},
+  });
+});
+
+test('when_Update_Password_User_Does_Not_Exist', async () => {
+  const mockUsername = 'abcd';
+  const mockPassword = 'xyz';
+  const mockReq = {
+    params: { username: mockUsername },
+    body: { password: mockPassword },
+  };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'updateOne').mockResolvedValue({});
+  jest.spyOn(User, 'findOne').mockResolvedValue(null);
+
+  await updatePassword(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(404);
+  expect(mockRes.json).toBeCalledWith({
+    successful: false,
+    user: null,
+  });
+});
