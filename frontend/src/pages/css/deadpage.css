@@ -8,10 +8,12 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin-top: 200px;
+    margin: auto;
 }
 
 .dead-page-container main h1 {
+    margin-left: 15px;
+    white-space: nowrap;
     font-family: Arial;
     color: #626262;
 }
