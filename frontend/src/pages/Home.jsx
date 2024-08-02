@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { listPosts } from '../operations/post-operations';
 import Post from '../components/Post';
 import Sidebar from '../components/Sidebar';
-import NoPostsDisplay from '../components/NoPostsDesplay';
+import NoPostsDisplay from '../components/NoPostsDisplay';
 import './css/home.css';
 
 const Home = () => {
