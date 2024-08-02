@@ -1,14 +1,21 @@
 .dead-page-container {
+    display: grid;
+    grid-template-columns: 0.4fr auto;
+    height: 100vh;
+}
+
+.dead-page-container main {
     display: flex;
-    flex-direction: column;
     align-items: center;
+    flex-direction: column;
     margin-top: 200px;
 }
-.dead-page-container h1 {
+
+.dead-page-container main h1 {
     font-family: Arial;
     color: #626262;
 }
-.dead-page-container p {
+.dead-page-container main p {
     font-family: Arial;
     font-size: 30px;
     font-style: italic;
@@ -16,7 +23,7 @@
     color: #626262;
 
 }
-.dead-page-container p:hover {
+.dead-page-container main p:hover {
     text-decoration: underline;
     color: #0c67e6;
 }
