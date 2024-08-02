@@ -1,0 +1,22 @@
+.dead-page-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 200px;
+}
+.dead-page-container h1 {
+    font-family: Arial;
+    color: #626262;
+}
+.dead-page-container p {
+    font-family: Arial;
+    font-size: 30px;
+    font-style: italic;
+    cursor: pointer;
+    color: #626262;
+
+}
+.dead-page-container p:hover {
+    text-decoration: underline;
+    color: #0c67e6;
+}
