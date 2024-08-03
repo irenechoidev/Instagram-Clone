@@ -1,0 +1,59 @@
+.user-card {
+    margin: 30px auto;
+    border: 1px solid black;
+    font-family: 'Arial';
+    max-width: 600px;
+    padding: 25px;
+}
+
+.user-card main {
+    display: flex;
+    align-items: center;
+}
+
+.user-card p {
+    color: #0c67e6;
+    font-size: 20px;
+    margin-left: 15px;
+    cursor: pointer;
+}
+
+.user-card p:hover {
+  text-decoration: underline;
+}
+
+.user-card img {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.user-card-button-group {
+    margin-left: auto;
+}
+
+.user-card-button-group button {
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+    padding: 15px;
+}
+
+.user-card-button-group .following-button {
+    background: gainsboro;
+    color: black;
+}
+
+.user-card-button-group .following-button:hover {
+    background: #b5b5b5;
+}
+
+.user-card-button-group .follow-button {
+    background: #027feb;
+    color: white;
+}
+
+.user-card-button-group .follow-button:hover {
+    background: #054a85;
+}

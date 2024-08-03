@@ -1,0 +1,31 @@
+.likes-container {
+    display: grid;
+    grid-template-columns: 0.4fr auto;
+    height: 100vh;
+}
+
+.likes-container main {
+    position: relative;
+}
+
+.likes-container nav {
+    font-family: 'Arial';
+    position: absolute;
+    left: -15px;
+    width: 110%;
+    background: #027feb;
+    color: white;
+    padding: 20px;
+}
+
+.likes-container nav .back-button {
+    cursor: pointer;
+}
+
+.likes-container nav .back-button:hover {
+    color: #d8d8d8;
+}
+
+.likes-container main .user-cards-list {
+  margin-top: 80px;
+}

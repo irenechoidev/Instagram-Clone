@@ -32,7 +32,7 @@ const Sidebar = () => {
       </section>
 
       <section>
-        <img src='test.jpg' alt='test profile' />
+        <img src='/test.jpg' alt='test profile' />
         <p>Profile</p>
       </section>
 
