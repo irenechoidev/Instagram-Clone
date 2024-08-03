@@ -12,3 +12,5 @@ exports.DEFAULT_LIST_FOLLOWING_LIMIT = 30;
 
 exports.IMAGE_KEY = 'image';
 exports.EXPRESS_STATIC_PATH = 'public';
+
+exports.POSTS_API_CONTROLLER_LOG_GROUP = 'posts-api-controller';

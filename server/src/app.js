@@ -4,6 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
+const { v4 } = require('uuid');
 const { createMetrics } = require('./metrics/createMetrics');
 const { EXPRESS_STATIC_PATH } = require('./commons/constants');
 const { createLogger } = require('./utils/createLogger');
@@ -16,6 +17,7 @@ app.use(express.json());
 const metrics = createMetrics();
 const logger = createLogger();
 app.use((req, _, next) => {
+  req.id = v4();
   req.logger = logger;
   req.metrics = metrics;
   next();
