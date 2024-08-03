@@ -35,6 +35,9 @@ exports.createLogger = () => {
 
 const formatContent = (severity, text) => {
   let content = '';
+  content += new Date().toISOString();
+
+  content += ' ';
   content += '[' + severity + ']';
 
   content += ' ';
