@@ -6,6 +6,7 @@ const cors = require('cors');
 const path = require('path');
 const { createMetrics } = require('./metrics/createMetrics');
 const { EXPRESS_STATIC_PATH } = require('./commons/constants');
+const { createLogger } = require('./utils/createLogger');
 
 const app = express();
 app.use(cors());
@@ -13,7 +14,9 @@ app.use(express.static(path.join(__dirname, '../', EXPRESS_STATIC_PATH)));
 app.use(express.json());
 
 const metrics = createMetrics();
+const logger = createLogger();
 app.use((req, _, next) => {
+  req.logger = logger;
   req.metrics = metrics;
   next();
 });
