@@ -4,6 +4,7 @@ const {
   BAD_REQUEST,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_POSTS_LIMIT,
+  POSTS_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 const { getPageNumber } = require('../utils/getPageNumber');
 
@@ -143,10 +144,11 @@ exports.deletePost = async (req, res) => {
 
 exports.listPosts = async (req, res) => {
   const requestRecieved = new Date().getTime();
+  const logger = req.logger.getLogGroup(POSTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: GET Api: ListPosts`);
 
   const { username } = req.params;
   const { listPostsRequestCount, listPostsLatency, labels } = req.metrics;
-
   listPostsRequestCount.bind(labels).add(1);
 
   const pageSize = req.query.pageSize || DEFAULT_LIST_POSTS_LIMIT;
@@ -159,6 +161,7 @@ exports.listPosts = async (req, res) => {
   const latency = new Date().getTime() - requestRecieved;
   listPostsLatency.bind(labels).set(latency);
 
+  logger.info(`END ${req.id} Method: GET Api: ListPosts`);
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     posts,

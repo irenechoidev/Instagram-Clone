@@ -1,36 +1,50 @@
 const fs = require('fs');
 const path = require('path');
-const { EXPRESS_STATIC_PATH } = require('../commons/constants');
+const {
+  EXPRESS_STATIC_PATH,
+  POSTS_API_CONTROLLER_LOG_GROUP,
+} = require('../commons/constants');
 
 const ERROR_SEVERITY = 'ERROR';
 const WARNING_SEVERITY = 'WARN';
 const INFO_SEVERITY = 'INFO';
-const LOGS_FILE_NAME = 'logs.txt';
 
-const filePath = path.join(
-  __dirname,
-  '../../',
-  EXPRESS_STATIC_PATH,
-  LOGS_FILE_NAME
-);
+const LOGS_FILE_MAP = {
+  [POSTS_API_CONTROLLER_LOG_GROUP]: 'posts-api-controller.txt',
+};
 
 exports.createLogger = () => {
   const logger = {
-    info: (text) => {
-      const content = formatContent(INFO_SEVERITY, text);
-      fs.appendFile(filePath, content, (_) => _);
-    },
-    warn: (text) => {
-      const content = formatContent(WARNING_SEVERITY, text);
-      fs.appendFile(filePath, content, (_) => _);
-    },
-    error: (text) => {
-      const content = formatContent(ERROR_SEVERITY, text);
-      fs.appendFile(filePath, content, (_) => _);
+    getLogGroup: (logGroupName) => {
+      const filePath = getFilePath(logGroupName);
+
+      return {
+        info: (text) => {
+          const content = formatContent(INFO_SEVERITY, text);
+          fs.appendFile(filePath, content, (_) => _);
+        },
+        warn: (text) => {
+          const content = formatContent(WARNING_SEVERITY, text);
+          fs.appendFile(filePath, content, (_) => _);
+        },
+        error: (text) => {
+          const content = formatContent(ERROR_SEVERITY, text);
+          fs.appendFile(filePath, content, (_) => _);
+        },
+      };
     },
   };
 
   return logger;
+};
+
+const getFilePath = (logGroupName) => {
+  return path.join(
+    __dirname,
+    '../../',
+    EXPRESS_STATIC_PATH,
+    LOGS_FILE_MAP[logGroupName]
+  );
 };
 
 const formatContent = (severity, text) => {
