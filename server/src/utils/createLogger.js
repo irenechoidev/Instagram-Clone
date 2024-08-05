@@ -3,6 +3,7 @@ const path = require('path');
 const {
   EXPRESS_STATIC_PATH,
   POSTS_API_CONTROLLER_LOG_GROUP,
+  LIKES_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 
 const ERROR_SEVERITY = 'ERROR';
@@ -11,6 +12,7 @@ const INFO_SEVERITY = 'INFO';
 
 const LOGS_FILE_MAP = {
   [POSTS_API_CONTROLLER_LOG_GROUP]: 'posts-api-controller.txt',
+  [LIKES_API_CONTROLLER_LOG_GROUP]: 'likes-api-controller.txt',
 };
 
 exports.createLogger = () => {

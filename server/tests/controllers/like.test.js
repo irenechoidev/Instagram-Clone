@@ -47,7 +47,9 @@ test('create_Like_Returns_400', async () => {
 
 test('list_Likes_Success', async () => {
   const mockPostId = '1234abc';
-  const mockReq = { params: { mockPostId: mockPostId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { postId: mockPostId };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'find').mockResolvedValue([{}]);
@@ -99,4 +101,11 @@ const buildMockResponse = () => {
   mockRes.json = jest.fn();
   mockRes.status = jest.fn(() => mockRes);
   return mockRes;
+};
+
+const buildMockRequest = () => {
+  const mockReq = { logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
+  return mockReq;
 };
