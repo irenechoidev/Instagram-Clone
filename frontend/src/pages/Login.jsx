@@ -8,7 +8,7 @@ const Login = () => {
   return (
     <div className='login-container'>
       <form className='login-form-container'>
-        <h3>Instagram</h3>
+        <h3>Welcome to Instagram!</h3>
 
         <input
           type='text'

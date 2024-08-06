@@ -7,7 +7,7 @@ const Register = () => {
   return (
     <div className='register-container'>
       <form className='register-form-container'>
-        <h3>Welcome to Instagram</h3>
+        <h3>Join Instagram Today!</h3>
 
         <input
           type='text'
