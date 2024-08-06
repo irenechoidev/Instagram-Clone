@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import './css/login.css';
+import './css/register.css';
 
-const Login = () => {
+const Register = () => {
   const [username, setUsername] = useState();
   const [password, setPassword] = useState();
-
   return (
-    <div className='login-container'>
-      <form className='login-form-container'>
-        <h3>Welcome to Instagram!</h3>
+    <div className='register-container'>
+      <form className='register-form-container'>
+        <h3>Join Instagram Today!</h3>
 
         <input
           type='text'
@@ -26,10 +25,10 @@ const Login = () => {
           required
         />
 
-        <button>Log in</button>
+        <button>Register</button>
       </form>
     </div>
   );
 };
 
-export default Login;
+export default Register;
