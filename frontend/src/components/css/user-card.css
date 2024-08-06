@@ -1,6 +1,7 @@
 .user-card {
     margin: 30px auto;
     border: 1px solid black;
+    background: white;
     font-family: 'Arial';
     max-width: 600px;
     padding: 25px;
