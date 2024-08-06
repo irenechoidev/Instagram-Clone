@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 0.4fr auto;
     height: 100vh;
+    background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
 }
 
 .dead-page-container main {
@@ -15,17 +16,16 @@
     margin-left: 15px;
     white-space: nowrap;
     font-family: Arial;
-    color: #626262;
+    color: #dfdcdc;
 }
 .dead-page-container main p {
     font-family: Arial;
     font-size: 30px;
     font-style: italic;
     cursor: pointer;
-    color: #626262;
+    color: #dfdcdc;
 
 }
 .dead-page-container main p:hover {
     text-decoration: underline;
-    color: #0c67e6;
 }

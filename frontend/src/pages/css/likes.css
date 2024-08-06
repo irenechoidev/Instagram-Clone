@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 0.4fr auto;
     height: 100vh;
+    background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
 }
 
 .likes-container main {
