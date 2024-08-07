@@ -1,0 +1,33 @@
+.add-comment-container {
+    width: 40%;
+    min-width: 400px;
+    position: absolute;
+    padding: 10px;
+    background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
+    left: 43%;
+    bottom: 20px;
+}
+
+.add-comment-container form {
+    display: flex;
+}
+
+.add-comment-container input {
+    padding: 10px;
+    border-radius: 12px;
+    font-size: 20px;
+    width: 100%;
+    outline: none;
+}
+
+.add-comment-container button {
+    margin-left: 5px;
+    color:#277bd0;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.add-comment-container button:hover {
+    color: darkblue;
+}
