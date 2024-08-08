@@ -3,6 +3,7 @@ const {
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_COMMENTS_LIMIT,
+  COMMENTS_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 const Comment = require('../models/comment');
 const { getPageNumber } = require('../utils/getPageNumber');
@@ -44,6 +45,9 @@ exports.createComment = async (req, res) => {
 
 exports.listComments = async (req, res) => {
   const requestRecieved = new Date().getTime();
+  const logger = req.logger.getLogGroup(COMMENTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: GET Api: ListComments`);
+
   const { postId } = req.params;
 
   const { listCommentsRequestCount, listCommentsLatency, labels } = req.metrics;
@@ -59,6 +63,8 @@ exports.listComments = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   listCommentsLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: GET Api:ListComments`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
