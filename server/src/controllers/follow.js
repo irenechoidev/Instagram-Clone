@@ -4,6 +4,7 @@ const {
   RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_FOLLOWERS_LIMIT,
   DEFAULT_LIST_FOLLOWING_LIMIT,
+  FOLLOWERS_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 const Follow = require('../models/follow');
 const { getPageNumber } = require('../utils/getPageNumber');
@@ -31,6 +32,9 @@ exports.createFollow = async (req, res) => {
 };
 
 exports.listFollowers = async (req, res) => {
+  const logger = req.logger.getLogGroup(FOLLOWERS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: GET Api: ListFollowers`);
+
   const { username } = req.params;
 
   const pageSize = req.query.pageSize || DEFAULT_LIST_FOLLOWERS_LIMIT;
@@ -39,6 +43,8 @@ exports.listFollowers = async (req, res) => {
   const followers = await Follow.find({ owner: username })
     .skip((page - 1) * pageSize)
     .limit(pageSize);
+
+  logger.info(`END ${req.id} Method: GET Api: ListFollowers`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
