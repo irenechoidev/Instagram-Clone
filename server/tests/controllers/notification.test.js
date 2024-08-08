@@ -99,3 +99,11 @@ const buildMockResponse = () => {
 
   return mockRes;
 };
+
+const buildMockRequest = () => {
+  const mockReq = { logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
+
+  return mockReq;
+};

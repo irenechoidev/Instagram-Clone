@@ -64,7 +64,7 @@ exports.listComments = async (req, res) => {
   const latency = new Date().getTime() - requestRecieved;
   listCommentsLatency.bind(labels).set(latency);
 
-  logger.info(`END ${req.id} Method: GET Api:ListComments`);
+  logger.info(`END ${req.id} Method: GET Api: ListComments`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
