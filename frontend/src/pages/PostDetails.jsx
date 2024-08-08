@@ -1,11 +1,11 @@
 import React from 'react';
 import Sidebar from '../components/Sidebar';
 import DetailsPost from '../components/DetailsPost';
-import UserCard from '../components/UserCard';
+import Comment from '../components/Comment';
 import AddComment from '../components/AddComment';
 import './css/post-details.css';
 
-const Details = () => {
+const PostDetails = () => {
   return (
     <div className='post-details-container'>
       <Sidebar />
@@ -19,11 +19,23 @@ const Details = () => {
           createdDate={new Date()}
         />
 
-        <UserCard imgURL={'/test.jpg'} username={'username'} />
-        <UserCard imgURL={'/test.jpg'} username={'username'} />
-        <UserCard imgURL={'/test.jpg'} username={'username'} />
-        <UserCard imgURL={'/test.jpg'} username={'username'} />
-        <UserCard imgURL={'/test.jpg'} username={'username'} />
+        <div className='post-details-comments'>
+          <Comment
+            imgURL='/test.jpg'
+            username='Username'
+            createdDate={new Date()}
+          />
+          <Comment
+            imgURL='/test.jpg'
+            username='Username'
+            createdDate={new Date()}
+          />
+          <Comment
+            imgURL='/test.jpg'
+            username='Username'
+            createdDate={new Date()}
+          />
+        </div>
 
         <AddComment />
       </main>
@@ -31,4 +43,4 @@ const Details = () => {
   );
 };
 
-export default Details;
+export default PostDetails;
