@@ -156,7 +156,9 @@ const buildMockResponse = () => {
 };
 
 const buildMockRequest = () => {
-  const mockReq = { metrics: {} };
+  const mockReq = { metrics: {}, logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
 
   mockReq.metrics.createCommentRequestCount = {};
   mockReq.metrics.createCommentLatency = {};

@@ -15,3 +15,4 @@ exports.EXPRESS_STATIC_PATH = 'public';
 
 exports.POSTS_API_CONTROLLER_LOG_GROUP = 'posts-api-controller';
 exports.LIKES_API_CONTROLLER_LOG_GROUP = 'likes-api-controller';
+exports.COMMENTS_API_CONTROLLER_LOG_GROUP = 'comments-api-controller';
