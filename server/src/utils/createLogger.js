@@ -29,19 +29,19 @@ exports.createLogger = () => {
       return {
         info: (text) => {
           const content = formatContent(INFO_SEVERITY, text);
-          console.log(content);
+          process.stdout.write(content);
 
           fs.appendFile(filePath, content, (_) => _);
         },
         warn: (text) => {
           const content = formatContent(WARNING_SEVERITY, text);
-          console.log(content);
+          process.stdout.write(content);
 
           fs.appendFile(filePath, content, (_) => _);
         },
         error: (text) => {
           const content = formatContent(ERROR_SEVERITY, text);
-          console.log(content);
+          process.stdout.write(content);
 
           fs.appendFile(filePath, content, (_) => _);
         },
