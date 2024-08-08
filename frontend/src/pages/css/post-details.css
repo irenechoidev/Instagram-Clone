@@ -9,3 +9,7 @@
     overflow: auto;
     margin-bottom: 50px;
 }
+
+.post-details-container .post-details-comments {
+    margin-bottom: 6%;
+}
