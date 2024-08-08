@@ -3,6 +3,7 @@ const {
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_NOTIFICATIONS_LIMIT,
+  NOTIFICATIONS_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 const Notification = require('../models/notification');
 const { getPageNumber } = require('../utils/getPageNumber');
@@ -31,6 +32,9 @@ exports.createNotification = async (req, res) => {
 };
 
 exports.listNotifications = async (req, res) => {
+  const logger = req.logger.getLogGroup(NOTIFICATIONS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: GET Api: ListNotifications`);
+
   const { username } = req.params;
 
   const pageSize = req.query.pageSize || DEFAULT_LIST_NOTIFICATIONS_LIMIT;
@@ -39,6 +43,8 @@ exports.listNotifications = async (req, res) => {
   const notifications = await Notification.find({ owner: username })
     .skip((page - 1) * pageSize)
     .limit(pageSize);
+
+  logger.info(`END ${req.id} Method: GET Api: ListNotifications`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,

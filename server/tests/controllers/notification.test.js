@@ -53,10 +53,9 @@ test('create_Notification_returns_400', async () => {
 
 test('list_Notifications_Success', async () => {
   const mockUsername = 'abcd';
-  const mockReq = {
-    params: { username: mockUsername },
-    query: { pageSize: 10, page: 1 },
-  };
+  const mockReq = buildMockRequest();
+  mockReq.params = { username: mockUsername };
+  mockReq.query = { pageSize: 10, page: 1 };
 
   const mockRes = buildMockResponse();
 
@@ -98,4 +97,12 @@ const buildMockResponse = () => {
   mockRes.status = jest.fn(() => mockRes);
 
   return mockRes;
+};
+
+const buildMockRequest = () => {
+  const mockReq = { logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
+
+  return mockReq;
 };
