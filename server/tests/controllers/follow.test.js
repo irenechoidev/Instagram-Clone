@@ -48,10 +48,9 @@ test('create_Follow_returns_400', async () => {
 
 test('list_Followers_Success', async () => {
   const mockUsername = 'abc';
-  const mockReq = {
-    params: { username: mockUsername },
-    query: { pageSize: 10, page: 1 },
-  };
+  const mockReq = buildMockRequest();
+  mockReq.params = { following: mockUsername };
+  mockReq.query = { pageSize: 10, page: 1 };
 
   const mockRes = buildMockResponse();
 
@@ -73,9 +72,10 @@ test('list_Followers_Success', async () => {
 test('list_Following_Success', async () => {
   const mockUsername = 'abc';
   const mockReq = {
-    params: { following: mockUsername },
+    params: { username: mockUsername },
     query: { pageSize: 10, page: 1 },
   };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'find').mockResolvedValue([{}]);
@@ -130,5 +130,14 @@ const buildMockResponse = () => {
   const mockRes = {};
   mockRes.json = jest.fn();
   mockRes.status = jest.fn(() => mockRes);
+
   return mockRes;
+};
+
+const buildMockRequest = () => {
+  const mockReq = { logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
+
+  return mockReq;
 };

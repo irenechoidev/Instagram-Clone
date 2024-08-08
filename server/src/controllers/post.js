@@ -162,6 +162,8 @@ exports.listPosts = async (req, res) => {
   listPostsLatency.bind(labels).set(latency);
 
   logger.info(`END ${req.id} Method: GET Api: ListPosts`);
+  logger.info(`REPORT ${req.id} Duration: ${latency} ms`);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     posts,
