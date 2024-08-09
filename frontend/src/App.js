@@ -5,11 +5,13 @@ import Likes from './pages/Likes';
 import Register from './pages/Register';
 import Login from './pages/Login';
 import PostDetails from './pages/PostDetails';
+import NotificationsPage from './pages/NotificationsPage';
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path='/notifications' element={<NotificationsPage />} />
         <Route path='/likes/:postId' element={<Likes />} />
         <Route path='/post/:postId' element={<PostDetails />} />
         <Route path='/register' element={<Register />} />
