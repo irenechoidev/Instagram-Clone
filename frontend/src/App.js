@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DeadPage from './pages/DeadPage';
-import Followers from './pages/Follower';
+import Followers from './pages/Followers';
 import Likes from './pages/Likes';
 import Register from './pages/Register';
 import Login from './pages/Login';
