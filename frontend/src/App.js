@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import DeadPage from './pages/DeadPage';
+import Followers from './pages/Followers';
 import Likes from './pages/Likes';
 import Register from './pages/Register';
 import Login from './pages/Login';
@@ -12,6 +13,7 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path='/notifications' element={<NotificationsPage />} />
+        <Route path='/followers/:username' element={<Followers />} />
         <Route path='/likes/:postId' element={<Likes />} />
         <Route path='/post/:postId' element={<PostDetails />} />
         <Route path='/register' element={<Register />} />
