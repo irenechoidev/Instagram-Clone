@@ -1,9 +1,9 @@
 import React from 'react';
 import './css/user-card.css';
 
-const following = false;
-
 const UserCard = ({ imgURL, username }) => {
+  const following = false;
+
   return (
     <div className='user-card'>
       <main>
@@ -14,7 +14,7 @@ const UserCard = ({ imgURL, username }) => {
           {following ? (
             <button className='following-button'>Following</button>
           ) : (
-            <button className='follow-button'>Follow Back</button>
+            <button className='follow-button'>Follow</button>
           )}
         </div>
       </main>
