@@ -1,16 +1,14 @@
-.likes-container {
+.followers-container {
     display: grid;
     grid-template-columns: 0.4fr auto;
     height: 100vh;
     background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
 }
-
-.likes-container main {
+.followers-container main {
     position: relative;
 }
-
-.likes-container nav {
-    display:flex;
+.followers-container nav {
+    display: flex;
     font-family: 'Arial';
     position: absolute;
     left: -15px;
@@ -19,20 +17,15 @@
     color: white;
     padding: 20px;
 }
-
-.likes-container nav .back-button {
+.followers-container nav .back-button {
     cursor: pointer;
 }
-
-.likes-container nav .back-button:hover {
+.followers-container nav .back-button:hover {
     color: #d8d8d8;
 }
-.likes-container nav h3 {
-    margin:auto;
-    
-    
+.followers-container nav h3 {
+    margin: auto;
 }
-
-.likes-container main .user-cards-list {
-  margin-top: 100px;
+.followers-container main .follower-cards-list {
+    margin-top: 80px;
 }

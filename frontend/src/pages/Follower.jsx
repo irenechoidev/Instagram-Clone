@@ -3,11 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import Sidebar from '../components/Sidebar';
 import UserCard from '../components/UserCard';
-import './css/likes.css';
+import './css/followers.css';
 
-const Likes = () => {
+const Followers = () => {
   return (
-    <div className='likes-container'>
+    <div className='followers-container'>
       <aside>
         <Sidebar />
       </aside>
@@ -17,10 +17,11 @@ const Likes = () => {
           <div>
             <FontAwesomeIcon icon={faArrowLeft} className='back-button' />
           </div>
-          <h3>Likes</h3>
+          <h3>Followers</h3>
         </nav>
 
-        <div className='user-cards-list'>
+        <div className='follower-cards-list'>
+          <UserCard imgURL='/test.jpg' username='username' />
           <UserCard imgURL='/test.jpg' username='username' />
           <UserCard imgURL='/test.jpg' username='username' />
           <UserCard imgURL='/test.jpg' username='username' />
@@ -29,5 +30,4 @@ const Likes = () => {
     </div>
   );
 };
-
-export default Likes;
+export default Followers;
