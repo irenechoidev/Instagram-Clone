@@ -71,10 +71,9 @@ test('list_Followers_Success', async () => {
 
 test('list_Following_Success', async () => {
   const mockUsername = 'abc';
-  const mockReq = {
-    params: { username: mockUsername },
-    query: { pageSize: 10, page: 1 },
-  };
+  const mockReq = buildMockRequest();
+  mockReq.params = { username: mockUsername };
+  mockReq.query = { pageSize: 10, page: 1 };
 
   const mockRes = buildMockResponse();
 
