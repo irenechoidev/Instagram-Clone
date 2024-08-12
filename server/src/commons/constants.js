@@ -17,5 +17,4 @@ exports.POSTS_API_CONTROLLER_LOG_GROUP = 'posts-api-controller';
 exports.LIKES_API_CONTROLLER_LOG_GROUP = 'likes-api-controller';
 exports.COMMENTS_API_CONTROLLER_LOG_GROUP = 'comments-api-controller';
 exports.NOTIFICATIONS_API_CONTROLLER_LOG_GROUP = 'notifications-api-controller';
-exports.FOLLOWERS_API_CONTROLLER_LOG_GROUP = 'followers-api-controller';
-exports.FOLLOWING_API_CONTROLLER_LOG_GROUP = 'following-api-controller';
+exports.FOLLOW_API_CONTROLLER_LOG_GROUP = 'follow-api-controller';
