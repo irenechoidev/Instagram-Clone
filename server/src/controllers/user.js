@@ -64,6 +64,14 @@ exports.getUser = async (req, res) => {
   return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };
 
+exports.serachUsers = async (req, res) => {
+  const prefix = req.params.prefix || '';
+
+  const user = await User.find({ username: { $regex: prefix, $options: 'i' } });
+
+  return res.status(OK_STATUS_CODE).json({ successful: true, user });
+};
+
 exports.updateProfilePic = async (req, res) => {
   const { filename } = req.file;
   let user = await User.findOne({ username: req.params.username });

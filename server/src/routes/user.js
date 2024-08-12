@@ -8,6 +8,7 @@ const upload = createUpload();
 router.post('/', userController.createUser);
 router.post('/login', userController.loginUser);
 router.get('/:username', userController.getUser);
+router.get('/search/:prefix', userController.serachUsers);
 router.put('/profilepic/:username', upload, userController.updateProfilePic);
 router.put('/update_username/:id', userController.updateUsername);
 router.put('/update_password/:username', userController.updatePassword);
