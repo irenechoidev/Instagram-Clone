@@ -1,0 +1,31 @@
+.following-container {
+    display: grid;
+    grid-template-columns: 0.4fr auto;
+    height: 100vh;
+    background: linear-gradient(-225deg, #231557 0%, #44107A 29%, #FF1361 67%, #FFF800 100%);
+}
+.following-container main {
+    position: relative;
+}
+.following-container nav {
+    display: flex;
+    font-family: 'Arial';
+    position: absolute;
+    left: -15px;
+    width: 110%;
+    background-color:#4786de ;
+    color: white;
+    padding: 20px;
+}
+.following-container nav .back-button {
+    cursor: pointer;
+}
+.following-container nav .back-button:hover {
+    color: #d8d8d8;
+}
+.following-container nav h3 {
+    margin: auto;
+}
+.following-container main .following-cards-list {
+    margin-top: 80px;
+}
