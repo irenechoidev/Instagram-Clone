@@ -5,6 +5,7 @@ const {
   getUser,
   updateUsername,
   updatePassword,
+  serachUsers,
 } = require('../../src/controllers/user');
 const User = require('../../src/models/user');
 const { createToken } = require('../../src/utils/createToken');
@@ -137,6 +138,22 @@ test('when_User_Does_Not_Exist', async () => {
   expect(mockRes.json).toBeCalledWith({
     user: null,
     successful: false,
+  });
+});
+
+test('when_Search_Users_Success', async () => {
+  const mockPrefix = 'abc';
+  const mockReq = { params: { prefix: mockPrefix } };
+  const mockRes = buildMockResponse();
+
+  jest.spyOn(User, 'find').mockResolvedValue({});
+
+  await serachUsers(mockReq, mockRes);
+
+  expect(mockRes.status).toBeCalledWith(200);
+  expect(mockRes.json).toBeCalledWith({
+    successful: true,
+    user: {},
   });
 });
 
