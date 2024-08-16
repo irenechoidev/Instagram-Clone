@@ -7,6 +7,7 @@ const {
   COMMENTS_API_CONTROLLER_LOG_GROUP,
   NOTIFICATIONS_API_CONTROLLER_LOG_GROUP,
   FOLLOW_API_CONTROLLER_LOG_GROUP,
+  USER_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 
 const ERROR_SEVERITY = 'ERROR';
@@ -19,6 +20,7 @@ const LOGS_FILE_MAP = {
   [COMMENTS_API_CONTROLLER_LOG_GROUP]: 'comments-api-controller.txt',
   [NOTIFICATIONS_API_CONTROLLER_LOG_GROUP]: 'notifications-api-controller.txt',
   [FOLLOW_API_CONTROLLER_LOG_GROUP]: 'follow-api-controller.txt',
+  [USER_API_CONTROLLER_LOG_GROUP]: 'user-api-controller.txt',
 };
 
 exports.createLogger = () => {

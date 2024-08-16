@@ -18,3 +18,4 @@ exports.LIKES_API_CONTROLLER_LOG_GROUP = 'likes-api-controller';
 exports.COMMENTS_API_CONTROLLER_LOG_GROUP = 'comments-api-controller';
 exports.NOTIFICATIONS_API_CONTROLLER_LOG_GROUP = 'notifications-api-controller';
 exports.FOLLOW_API_CONTROLLER_LOG_GROUP = 'follow-api-controller';
+exports.USER_API_CONTROLLER_LOG_GROUP = 'user-api-controller';
