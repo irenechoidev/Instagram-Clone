@@ -5,6 +5,7 @@ const {
   RESOURCE_NOT_FOUND_STATUS_CODE,
   UNAUTHORIZED_STATUS_CODE,
   RESOURCE_ALREADY_EXISTS_STATUS_CODE,
+  USER_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
 const { createToken } = require('../utils/createToken');
 const { removeImageFromStorage } = require('../utils/removeImageFromStorage');
@@ -64,10 +65,15 @@ exports.getUser = async (req, res) => {
   return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };
 
-exports.serachUsers = async (req, res) => {
+exports.searchUsers = async (req, res) => {
+  const logger = req.logger.getLogGroup(USER_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: GET Api: searchUsers`);
+
   const prefix = req.params.prefix || '';
 
   const user = await User.find({ username: { $regex: prefix, $options: 'i' } });
+
+  logger.info(`END ${req.id} Method: GET Api: searchUsers`);
 
   return res.status(OK_STATUS_CODE).json({ successful: true, user });
 };

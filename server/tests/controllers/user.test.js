@@ -5,7 +5,7 @@ const {
   getUser,
   updateUsername,
   updatePassword,
-  serachUsers,
+  searchUsers,
 } = require('../../src/controllers/user');
 const User = require('../../src/models/user');
 const { createToken } = require('../../src/utils/createToken');
@@ -143,12 +143,13 @@ test('when_User_Does_Not_Exist', async () => {
 
 test('when_Search_Users_Success', async () => {
   const mockPrefix = 'abc';
-  const mockReq = { params: { prefix: mockPrefix } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { prefix: mockPrefix };
   const mockRes = buildMockResponse();
 
   jest.spyOn(User, 'find').mockResolvedValue({});
 
-  await serachUsers(mockReq, mockRes);
+  await searchUsers(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(200);
   expect(mockRes.json).toBeCalledWith({
@@ -192,13 +193,6 @@ test('when_Update_Username_409_Conflict', async () => {
   });
 });
 
-const buildMockResponse = () => {
-  const mockRes = {};
-  mockRes.json = jest.fn();
-  mockRes.status = jest.fn(() => mockRes);
-  return mockRes;
-};
-
 test('when_Update_Password_Success', async () => {
   const mockUsername = 'abcd';
   const mockPassword = 'xyz';
@@ -240,3 +234,18 @@ test('when_Update_Password_User_Does_Not_Exist', async () => {
     user: null,
   });
 });
+
+const buildMockResponse = () => {
+  const mockRes = {};
+  mockRes.json = jest.fn();
+  mockRes.status = jest.fn(() => mockRes);
+  return mockRes;
+};
+
+const buildMockRequest = () => {
+  const mockReq = { logger: {} };
+  mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
+  mockReq.logger.info = jest.fn();
+
+  return mockReq;
+};
