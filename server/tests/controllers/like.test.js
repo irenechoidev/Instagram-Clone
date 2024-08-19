@@ -8,11 +8,12 @@ const {
 test('create_Like_Success', async () => {
   const mockPostId = '1234abc';
   const mockUsername = 'abcd';
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     postId: mockPostId,
     username: mockUsername,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'create').mockResolvedValue({});
@@ -28,10 +29,8 @@ test('create_Like_Success', async () => {
 
 test('create_Like_Returns_400', async () => {
   const mockPostId = '1234abc';
-  const mockBody = {
-    postId: mockPostId,
-  };
-  const mockReq = { body: mockBody };
+  const mockReq = buildMockRequest();
+  mockReq.body = { postId: mockPostId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'create').mockRejectedValue(new Error());
@@ -104,8 +103,16 @@ const buildMockResponse = () => {
 };
 
 const buildMockRequest = () => {
-  const mockReq = { logger: {} };
+  const mockReq = { metrics: {}, logger: {} };
   mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
   mockReq.logger.info = jest.fn();
+
+  mockReq.metrics.createLikeRequestCount = {};
+
+  const { createLikeRequestCount } = mockReq.metrics;
+
+  createLikeRequestCount.bind = jest.fn(() => createLikeRequestCount);
+  createLikeRequestCount.add = jest.fn();
+
   return mockReq;
 };
