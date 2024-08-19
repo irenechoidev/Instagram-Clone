@@ -9,6 +9,10 @@ const Like = require('../models/like');
 exports.createLike = async (req, res) => {
   let like = null;
 
+  const { createLikeRequestCount, labels } = req.metrics;
+
+  createLikeRequestCount.bind(labels).add(1);
+
   try {
     like = await Like.create({
       postId: req.body.postId,
