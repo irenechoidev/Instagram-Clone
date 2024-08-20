@@ -108,11 +108,14 @@ const buildMockRequest = () => {
   mockReq.logger.info = jest.fn();
 
   mockReq.metrics.createLikeRequestCount = {};
+  mockReq.metrics.createLikeLatency = {};
 
-  const { createLikeRequestCount } = mockReq.metrics;
+  const { createLikeRequestCount, createLikeLatency } = mockReq.metrics;
 
   createLikeRequestCount.bind = jest.fn(() => createLikeRequestCount);
   createLikeRequestCount.add = jest.fn();
+  createLikeLatency.bind = jest.fn(() => createLikeLatency);
+  createLikeLatency.set = jest.fn();
 
   return mockReq;
 };

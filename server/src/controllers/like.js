@@ -7,9 +7,10 @@ const {
 const Like = require('../models/like');
 
 exports.createLike = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   let like = null;
 
-  const { createLikeRequestCount, labels } = req.metrics;
+  const { createLikeRequestCount, createLikeLatency, labels } = req.metrics;
 
   createLikeRequestCount.bind(labels).add(1);
 
@@ -20,11 +21,18 @@ exports.createLike = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    createLikeLatency.bind(labels).set(latency);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       like,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createLikeLatency.bind(labels).set(latency);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     like,
