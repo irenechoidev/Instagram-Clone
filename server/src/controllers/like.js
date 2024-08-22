@@ -44,6 +44,11 @@ exports.listLikes = async (req, res) => {
   logger.info(`START ${req.id} Method GET Api: ListLikes`);
 
   const { postId } = req.params;
+
+  const { listLikesRequestCount, labels } = req.metrics;
+
+  listLikesRequestCount.bind(labels).add(1);
+
   const likes = await Like.find({ postId: postId });
 
   logger.info(`END ${req.id} Method: GET Api : ListLikes`);
