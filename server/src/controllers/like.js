@@ -11,7 +11,6 @@ exports.createLike = async (req, res) => {
   let like = null;
 
   const { createLikeRequestCount, createLikeLatency, labels } = req.metrics;
-
   createLikeRequestCount.bind(labels).add(1);
 
   try {
@@ -43,8 +42,10 @@ exports.listLikes = async (req, res) => {
   const logger = req.logger.getLogGroup(LIKES_API_CONTROLLER_LOG_GROUP);
   logger.info(`START ${req.id} Method GET Api: ListLikes`);
 
-  const { postId } = req.params;
-  const likes = await Like.find({ postId: postId });
+  const { listLikesRequestCount, labels } = req.metrics;
+  listLikesRequestCount.bind(labels).add(1);
+
+  const likes = await Like.find({ postId: req.params.postId });
 
   logger.info(`END ${req.id} Method: GET Api : ListLikes`);
   return res.status(OK_STATUS_CODE).json({
