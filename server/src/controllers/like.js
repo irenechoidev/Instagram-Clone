@@ -39,15 +39,20 @@ exports.createLike = async (req, res) => {
 };
 
 exports.listLikes = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   const logger = req.logger.getLogGroup(LIKES_API_CONTROLLER_LOG_GROUP);
   logger.info(`START ${req.id} Method GET Api: ListLikes`);
 
-  const { listLikesRequestCount, labels } = req.metrics;
+  const { listLikesRequestCount, listLikesLatency, labels } = req.metrics;
   listLikesRequestCount.bind(labels).add(1);
 
   const likes = await Like.find({ postId: req.params.postId });
 
+  const latency = new Date().getTime() - requestRecieved;
+  listLikesLatency.bind(labels).set(latency);
+
   logger.info(`END ${req.id} Method: GET Api : ListLikes`);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     likes,
