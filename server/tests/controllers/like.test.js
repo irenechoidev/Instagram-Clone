@@ -64,7 +64,9 @@ test('list_Likes_Success', async () => {
 
 test('delete_Like_Success', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'findOne').mockResolvedValue({});
@@ -81,7 +83,8 @@ test('delete_Like_Success', async () => {
 
 test('delete_Like_Resource_Not_Found', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'findOne').mockResolvedValue(null);
@@ -126,6 +129,13 @@ const buildMockRequest = () => {
   listLikesRequestCount.add = jest.fn();
   listLikesLatency.bind = jest.fn(() => listLikesLatency);
   listLikesLatency.set = jest.fn();
+
+  mockReq.metrics.deleteLikeRequestCount = {};
+
+  const { deleteLikeRequestCount } = mockReq.metrics;
+
+  deleteLikeRequestCount.bind = jest.fn(() => deleteLikeRequestCount);
+  deleteLikeRequestCount.add = jest.fn();
 
   return mockReq;
 };
