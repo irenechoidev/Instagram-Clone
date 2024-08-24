@@ -2,6 +2,7 @@ const CREATE_LIKE_REQUEST_COUNT = 'CreateLike_RequestCount';
 const CREATE_LIKE_LATENCY = 'CreateLike_Latency';
 const LIST_LIKES_REQUEST_COUNT = 'ListLikes_RequestCount';
 const LIST_LIKES_LATENCY = 'ListLikes_Latency';
+const DELETE_LIKE_REQUEST_COUNT = 'DeleteLike_RequestCount';
 
 exports.aggregateLikeMetrics = (meter) => {
   const createLikeRequestCountData = buildCreateLikeRequestCountData();
@@ -28,11 +29,18 @@ exports.aggregateLikeMetrics = (meter) => {
     listLikesLatencyData.metadata
   );
 
+  const deleteLikeRequestCountData = buildDeleteLikeRequestCountData();
+  const deleteLikeRequestCount = meter.createCounter(
+    deleteLikeRequestCountData.name,
+    deleteLikeRequestCountData.metadata
+  );
+
   return {
     createLikeRequestCount: createLikeRequestCount,
     createLikeLatency: createLikeLatency,
     listLikesRequestCount: listLikesRequestCount,
     listLikesLatency: listLikesLatency,
+    deleteLikeRequestCount: deleteLikeRequestCount,
   };
 };
 
@@ -68,6 +76,15 @@ const buildListLikesLatencyData = () => {
     name: LIST_LIKES_LATENCY,
     metadata: {
       description: 'Records the latency of ListLikes API',
+    },
+  };
+};
+
+const buildDeleteLikeRequestCountData = () => {
+  return {
+    name: DELETE_LIKE_REQUEST_COUNT,
+    metadata: {
+      description: 'Count total number of DeleteLike API requests',
     },
   };
 };

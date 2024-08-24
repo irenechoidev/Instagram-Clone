@@ -61,6 +61,10 @@ exports.listLikes = async (req, res) => {
 
 exports.deleteLike = async (req, res) => {
   const { id } = req.params;
+
+  const { deleteLikeRequestCount, labels } = req.metrics;
+  deleteLikeRequestCount.bind(labels).add(1);
+
   const like = await Like.findOne({ _id: id });
 
   if (!like) {
