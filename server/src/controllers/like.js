@@ -60,20 +60,28 @@ exports.listLikes = async (req, res) => {
 };
 
 exports.deleteLike = async (req, res) => {
+  const requestRecieved = new Date().getTime();
+
   const { id } = req.params;
 
-  const { deleteLikeRequestCount, labels } = req.metrics;
+  const { deleteLikeRequestCount, deleteLikeLatency, labels } = req.metrics;
   deleteLikeRequestCount.bind(labels).add(1);
 
   const like = await Like.findOne({ _id: id });
 
   if (!like) {
+    const latency = new Date().getTime() - requestRecieved;
+    deleteLikeLatency.bind(labels).set(latency);
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       like,
     });
   }
   await Like.deleteOne({ _id: id });
+
+  const latency = new Date().getTime() - requestRecieved;
+  deleteLikeLatency.bind(labels).set(latency);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     like,
