@@ -131,11 +131,14 @@ const buildMockRequest = () => {
   listLikesLatency.set = jest.fn();
 
   mockReq.metrics.deleteLikeRequestCount = {};
+  mockReq.metrics.deleteLikeLatency = {};
 
-  const { deleteLikeRequestCount } = mockReq.metrics;
+  const { deleteLikeRequestCount, deleteLikeLatency } = mockReq.metrics;
 
   deleteLikeRequestCount.bind = jest.fn(() => deleteLikeRequestCount);
   deleteLikeRequestCount.add = jest.fn();
+  deleteLikeLatency.bind = jest.fn(() => deleteLikeLatency);
+  deleteLikeLatency.set = jest.fn();
 
   return mockReq;
 };
