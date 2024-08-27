@@ -9,11 +9,12 @@ const {
 test('create_Follow_Success', async () => {
   const mockOwner = 'abc';
   const mockFollowing = 'xyz';
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     owner: mockOwner,
     following: mockFollowing,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'create').mockResolvedValue({});
@@ -29,10 +30,11 @@ test('create_Follow_Success', async () => {
 
 test('create_Follow_returns_400', async () => {
   const mockFollowing = 'xyz';
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     following: mockFollowing,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'create').mockRejectedValue(new Error());
@@ -134,9 +136,16 @@ const buildMockResponse = () => {
 };
 
 const buildMockRequest = () => {
-  const mockReq = { logger: {} };
+  const mockReq = { metrics: {}, logger: {} };
   mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
   mockReq.logger.info = jest.fn();
+
+  mockReq.metrics.createFollowRequestCount = {};
+
+  const { createFollowRequestCount } = mockReq.metrics;
+
+  createFollowRequestCount.bind = jest.fn(() => createFollowRequestCount);
+  createFollowRequestCount.add = jest.fn();
 
   return mockReq;
 };

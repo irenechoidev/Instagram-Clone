@@ -3,6 +3,7 @@ const { PrometheusExporter } = require('@opentelemetry/exporter-prometheus');
 const { aggregatePostMetrics } = require('./postMetrics');
 const { aggregateCommentMetrics } = require('./commentMetrics');
 const { aggregateLikeMetrics } = require('./likeMetrics');
+const { aggregateFollowMetrics } = require('./followMetrics');
 
 exports.createMetrics = () => {
   const exporter = setUpPrometheus();
@@ -13,12 +14,14 @@ exports.createMetrics = () => {
   const postMetrics = aggregatePostMetrics(meter);
   const commentMetrics = aggregateCommentMetrics(meter);
   const likeMetrics = aggregateLikeMetrics(meter);
+  const followMetrics = aggregateFollowMetrics(meter);
   const labels = meter.labels({});
 
   return {
     ...postMetrics,
     ...commentMetrics,
     ...likeMetrics,
+    ...followMetrics,
     labels,
   };
 };
