@@ -10,9 +10,10 @@ const Follow = require('../models/follow');
 const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createFollow = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   let follow = null;
 
-  const { createFollowRequestCount, labels } = req.metrics;
+  const { createFollowRequestCount, createFollowLatency, labels } = req.metrics;
   createFollowRequestCount.bind(labels).add(1);
 
   try {
@@ -22,11 +23,17 @@ exports.createFollow = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
+    const latency = requestRecieved - new Date().getTime();
+    createFollowLatency.bind(labels).set(latency);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       follow,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createFollowLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
