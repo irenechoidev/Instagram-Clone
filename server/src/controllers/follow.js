@@ -12,6 +12,9 @@ const { getPageNumber } = require('../utils/getPageNumber');
 exports.createFollow = async (req, res) => {
   let follow = null;
 
+  const { createFollowRequestCount, labels } = req.metrics;
+  createFollowRequestCount.bind(labels).add(1);
+
   try {
     follow = await Follow.create({
       owner: req.body.owner,
