@@ -47,6 +47,9 @@ exports.listFollowers = async (req, res) => {
 
   const { username } = req.params;
 
+  const { listFollowersRequestCount, labels } = req.metrics;
+  listFollowersRequestCount.bind(labels).add(1);
+
   const pageSize = req.query.pageSize || DEFAULT_LIST_FOLLOWERS_LIMIT;
   const page = getPageNumber(req.query.page);
 
