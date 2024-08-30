@@ -42,12 +42,14 @@ exports.createFollow = async (req, res) => {
 };
 
 exports.listFollowers = async (req, res) => {
+  const requestRecieved = new Date().getTime();
   const logger = req.logger.getLogGroup(FOLLOW_API_CONTROLLER_LOG_GROUP);
   logger.info(`START ${req.id} Method: GET Api: ListFollowers`);
 
   const { username } = req.params;
 
-  const { listFollowersRequestCount, labels } = req.metrics;
+  const { listFollowersRequestCount, listFollowersLatency, labels } =
+    req.metrics;
   listFollowersRequestCount.bind(labels).add(1);
 
   const pageSize = req.query.pageSize || DEFAULT_LIST_FOLLOWERS_LIMIT;
@@ -58,6 +60,9 @@ exports.listFollowers = async (req, res) => {
     .limit(pageSize);
 
   logger.info(`END ${req.id} Method: GET Api: ListFollowers`);
+
+  const latency = new Date().getTime() - requestRecieved;
+  listFollowersLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
