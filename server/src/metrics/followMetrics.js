@@ -2,6 +2,7 @@ const CREATE_FOLLOW_REQUEST_COUNT = 'CreateFollow_RequestCount';
 const CREATE_FOLLOW_LATENCY = 'CreateFollow_Latency';
 const LIST_FOLLOWERS_REQUEST_COUNT = 'ListFollowers_RequestCount';
 const LIST_FOLLOWERS_LATENCY = 'ListFollowers_Latency';
+const LIST_FOLLOWING_REQUEST_COUNT = 'ListFollowing_RequestCount';
 
 exports.aggregateFollowMetrics = (meter) => {
   const createFollowRequestCountData = buildCreateFollowRequestCountData();
@@ -28,11 +29,18 @@ exports.aggregateFollowMetrics = (meter) => {
     listFollowersLatencyData.metadata
   );
 
+  const listFollowingRequestCountData = buildListFollowingRequestCountData();
+  const listFollowingRequestCount = meter.createCounter(
+    listFollowingRequestCountData.name,
+    listFollowingRequestCountData.metadata
+  );
+
   return {
     createFollowRequestCount: createFollowRequestCount,
     createFollowLatency: createFollowLatency,
     listFollowersRequestCount: listFollowersRequestCount,
     listFollowersLatency: listFollowersLatency,
+    listFollowingRequestCount: listFollowingRequestCount,
   };
 };
 
@@ -68,6 +76,15 @@ const buildListFollowersLatencyData = () => {
     name: LIST_FOLLOWERS_LATENCY,
     metadata: {
       description: 'Records the latency of ListFollowers API',
+    },
+  };
+};
+
+const buildListFollowingRequestCountData = () => {
+  return {
+    name: LIST_FOLLOWING_REQUEST_COUNT,
+    metadata: {
+      description: 'Count total number of ListFollowing API requests',
     },
   };
 };
