@@ -162,11 +162,15 @@ const buildMockRequest = () => {
   listFollowersLatency.set = jest.fn();
 
   mockReq.metrics.listFollowingRequestCount = {};
+  mockReq.metrics.listFollowingLatency = {};
 
   const { listFollowingRequestCount } = mockReq.metrics;
+  const { listFollowingLatency } = mockReq.metrics;
 
   listFollowingRequestCount.bind = jest.fn(() => listFollowingRequestCount);
   listFollowingRequestCount.add = jest.fn();
+  listFollowingLatency.bind = jest.fn(() => listFollowingLatency);
+  listFollowingLatency.set = jest.fn();
 
   return mockReq;
 };
