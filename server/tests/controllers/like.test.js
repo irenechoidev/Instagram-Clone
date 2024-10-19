@@ -48,10 +48,15 @@ test('list_Likes_Success', async () => {
   const mockPostId = '1234abc';
   const mockReq = buildMockRequest();
   mockReq.params = { postId: mockPostId };
+  mockReq.query = { pageSize: 10, page: 1 };
 
   const mockRes = buildMockResponse();
 
   jest.spyOn(Like, 'find').mockResolvedValue([{}]);
+
+  Like.find = jest.fn(() => Like);
+  Like.skip = jest.fn(() => Like);
+  Like.limit = jest.fn(() => [{}]);
 
   await listLikes(mockReq, mockRes);
 

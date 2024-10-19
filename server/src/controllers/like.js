@@ -3,8 +3,10 @@ const {
   OK_STATUS_CODE,
   RESOURCE_NOT_FOUND_STATUS_CODE,
   LIKES_API_CONTROLLER_LOG_GROUP,
+  DEFAULT_LIST_LIKES_LIMIT,
 } = require('../commons/constants');
 const Like = require('../models/like');
+const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createLike = async (req, res) => {
   const requestRecieved = new Date().getTime();
@@ -46,7 +48,12 @@ exports.listLikes = async (req, res) => {
   const { listLikesRequestCount, listLikesLatency, labels } = req.metrics;
   listLikesRequestCount.bind(labels).add(1);
 
-  const likes = await Like.find({ postId: req.params.postId });
+  const pageSize = req.query.pageSize || DEFAULT_LIST_LIKES_LIMIT;
+  const page = getPageNumber(req.query.page);
+
+  const likes = await Like.find({ postId: req.params.postId })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
 
   const latency = new Date().getTime() - requestRecieved;
   listLikesLatency.bind(labels).set(latency);
