@@ -76,13 +76,13 @@ exports.searchUsers = async (req, res) => {
 
   const prefix = req.params.prefix || '';
 
-  const user = await User.find({ username: { $regex: prefix, $options: 'i' } })
+  const users = await User.find({ username: { $regex: prefix, $options: 'i' } })
     .skip((page - 1) * pageSize)
     .limit(pageSize);
 
   logger.info(`END ${req.id} Method: GET Api: searchUsers`);
 
-  return res.status(OK_STATUS_CODE).json({ successful: true, user });
+  return res.status(OK_STATUS_CODE).json({ successful: true, users });
 };
 
 exports.updateProfilePic = async (req, res) => {

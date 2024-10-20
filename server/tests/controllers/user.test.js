@@ -159,7 +159,7 @@ test('when_Search_Users_Success', async () => {
   expect(mockRes.status).toBeCalledWith(200);
   expect(mockRes.json).toBeCalledWith({
     successful: true,
-    user: [{}],
+    users: [{}],
   });
 });
 
