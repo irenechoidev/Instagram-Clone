@@ -145,16 +145,21 @@ test('when_Search_Users_Success', async () => {
   const mockPrefix = 'abc';
   const mockReq = buildMockRequest();
   mockReq.params = { prefix: mockPrefix };
+  mockReq.query = { pageSize: 10, page: 1 };
   const mockRes = buildMockResponse();
 
   jest.spyOn(User, 'find').mockResolvedValue({});
+
+  User.find = jest.fn(() => User);
+  User.skip = jest.fn(() => User);
+  User.limit = jest.fn(() => [{}]);
 
   await searchUsers(mockReq, mockRes);
 
   expect(mockRes.status).toBeCalledWith(200);
   expect(mockRes.json).toBeCalledWith({
     successful: true,
-    user: {},
+    user: [{}],
   });
 });
 

@@ -6,8 +6,10 @@ const {
   UNAUTHORIZED_STATUS_CODE,
   RESOURCE_ALREADY_EXISTS_STATUS_CODE,
   USER_API_CONTROLLER_LOG_GROUP,
+  DEFAULT_SEARCH_USERS_LIMIT,
 } = require('../commons/constants');
 const { createToken } = require('../utils/createToken');
+const { getPageNumber } = require('../utils/getPageNumber');
 const { removeImageFromStorage } = require('../utils/removeImageFromStorage');
 
 exports.createUser = async (req, res) => {
@@ -69,9 +71,14 @@ exports.searchUsers = async (req, res) => {
   const logger = req.logger.getLogGroup(USER_API_CONTROLLER_LOG_GROUP);
   logger.info(`START ${req.id} Method: GET Api: searchUsers`);
 
+  const pageSize = req.query.pageSize || DEFAULT_SEARCH_USERS_LIMIT;
+  const page = getPageNumber(req.query.page);
+
   const prefix = req.params.prefix || '';
 
-  const user = await User.find({ username: { $regex: prefix, $options: 'i' } });
+  const user = await User.find({ username: { $regex: prefix, $options: 'i' } })
+    .skip((page - 1) * pageSize)
+    .limit(pageSize);
 
   logger.info(`END ${req.id} Method: GET Api: searchUsers`);
 
