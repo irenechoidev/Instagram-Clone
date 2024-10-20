@@ -11,6 +11,10 @@ const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createFollow = async (req, res) => {
   const requestRecieved = new Date().getTime();
+
+  const logger = req.logger.getLogGroup(FOLLOW_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: POST Api: createFollow`);
+
   let follow = null;
 
   const { createFollowRequestCount, createFollowLatency, labels } = req.metrics;
@@ -26,6 +30,8 @@ exports.createFollow = async (req, res) => {
     const latency = requestRecieved - new Date().getTime();
     createFollowLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       follow,
@@ -34,6 +40,8 @@ exports.createFollow = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   createFollowLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: POST Api: createFollow`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
