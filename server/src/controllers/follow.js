@@ -13,7 +13,7 @@ exports.createFollow = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
   const logger = req.logger.getLogGroup(FOLLOW_API_CONTROLLER_LOG_GROUP);
-  logger.info(`START ${req.id} Method: POST Api: createFollow`);
+  logger.info(`START ${req.id} Method: POST Api: CreateFollow`);
 
   let follow = null;
 
