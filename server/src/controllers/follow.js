@@ -41,7 +41,7 @@ exports.createFollow = async (req, res) => {
   const latency = new Date().getTime() - requestRecieved;
   createFollowLatency.bind(labels).set(latency);
 
-  logger.info(`END ${req.id} Method: POST Api: createFollow`);
+  logger.info(`END ${req.id} Method: POST Api: CreateFollow`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,

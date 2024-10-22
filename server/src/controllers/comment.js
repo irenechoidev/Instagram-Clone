@@ -12,7 +12,7 @@ exports.createComment = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
   const logger = req.logger.getLogGroup(COMMENTS_API_CONTROLLER_LOG_GROUP);
-  logger.info(`START ${req.id} Method: POST Api: createComment`);
+  logger.info(`START ${req.id} Method: POST Api: CreateComment`);
 
   let comment = null;
 
@@ -43,7 +43,7 @@ exports.createComment = async (req, res) => {
   const latency = new Date().getTime() - requestRecieved;
   createCommentLatency.bind(labels).set(latency);
 
-  logger.info(`END ${req.id} Method: POST Api: createComment`);
+  logger.info(`END ${req.id} Method: POST Api: CreateComment`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
