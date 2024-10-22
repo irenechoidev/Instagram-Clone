@@ -10,6 +10,10 @@ const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createComment = async (req, res) => {
   const requestRecieved = new Date().getTime();
+
+  const logger = req.logger.getLogGroup(COMMENTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: POST Api: createComment`);
+
   let comment = null;
 
   const { createCommentRequestCount, createCommentLatency, labels } =
@@ -28,6 +32,8 @@ exports.createComment = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     createCommentLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       comment,
@@ -36,6 +42,8 @@ exports.createComment = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   createCommentLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: POST Api: createComment`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
