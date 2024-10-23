@@ -82,6 +82,10 @@ exports.listComments = async (req, res) => {
 
 exports.updateComment = async (req, res) => {
   const requestRecieved = new Date().getTime();
+
+  const logger = req.logger.getLogGroup(COMMENTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: PUT Api: UpdateComment`);
+
   let comment = null;
   const { id } = req.params;
 
@@ -103,6 +107,8 @@ exports.updateComment = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     updateCommentLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       comment,
@@ -111,6 +117,8 @@ exports.updateComment = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   updateCommentLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: PUT Api: UpdateComment`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
