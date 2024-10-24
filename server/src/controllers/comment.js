@@ -129,16 +129,22 @@ exports.updateComment = async (req, res) => {
 exports.deleteComment = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
-  const { id } = req.params;
-  const comment = await Comment.findOne({ _id: id });
+  const logger = req.logger.getLogGroup(COMMENTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: DELETE Api: DeleteComment`);
 
   const { deleteCommentRequestCount, deleteCommentLatency, labels } =
     req.metrics;
   deleteCommentRequestCount.bind(labels).add(1);
 
+  const { id } = req.params;
+  const comment = await Comment.findOne({ _id: id });
+
   if (!comment) {
     const latency = new Date().getTime() - requestRecieved;
     deleteCommentLatency.bind(labels).set(latency);
+
+    logger.warn(`Comment with id: ${id} does not exist`);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       comment,
@@ -149,6 +155,8 @@ exports.deleteComment = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   deleteCommentLatency.bind(labels).set(latency);
+
+  logger.info(`End ${req.id} Method: DELETE Api: DeleteComment`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
