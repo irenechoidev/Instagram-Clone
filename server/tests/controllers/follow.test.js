@@ -96,7 +96,8 @@ test('list_Following_Success', async () => {
 
 test('delete_Follow_Success', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'findOne').mockResolvedValue({});
@@ -113,7 +114,8 @@ test('delete_Follow_Success', async () => {
 
 test('delete_Follow_Resource_Not_Found', async () => {
   const mockId = '1234';
-  const mockReq = { params: { id: mockId } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { id: mockId };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Follow, 'findOne').mockResolvedValue(null);
@@ -172,6 +174,13 @@ const buildMockRequest = () => {
   listFollowingRequestCount.add = jest.fn();
   listFollowingLatency.bind = jest.fn(() => listFollowingLatency);
   listFollowingLatency.set = jest.fn();
+
+  mockReq.metrics.deleteFollowRequestCount = {};
+
+  const { deleteFollowRequestCount } = mockReq.metrics;
+
+  deleteFollowRequestCount.bind = jest.fn(() => deleteFollowRequestCount);
+  deleteFollowRequestCount.add = jest.fn();
 
   return mockReq;
 };
