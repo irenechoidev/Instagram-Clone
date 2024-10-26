@@ -108,6 +108,9 @@ exports.listFollowing = async (req, res) => {
 };
 
 exports.deleteFollow = async (req, res) => {
+  const { deleteFollowRequestCount, labels } = req.metrics;
+  deleteFollowRequestCount.bind(labels).add(1);
+
   const { id } = req.params;
   const follow = await Follow.findOne({ _id: id });
 
