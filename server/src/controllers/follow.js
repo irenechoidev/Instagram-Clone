@@ -108,7 +108,9 @@ exports.listFollowing = async (req, res) => {
 };
 
 exports.deleteFollow = async (req, res) => {
-  const { deleteFollowRequestCount, labels } = req.metrics;
+  const requestRecieved = new Date().getTime();
+
+  const { deleteFollowRequestCount, deleteFollowLatency, labels } = req.metrics;
   deleteFollowRequestCount.bind(labels).add(1);
 
   const { id } = req.params;
@@ -121,6 +123,10 @@ exports.deleteFollow = async (req, res) => {
     });
   }
   await Follow.deleteOne({ _id: id });
+
+  const latency = new Date().getTime() - requestRecieved;
+  deleteFollowLatency.bind(labels).set(latency);
+
   return res.status(OK_STATUS_CODE).json({
     successful: true,
     follow,
