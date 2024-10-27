@@ -5,6 +5,7 @@ const LIST_FOLLOWERS_LATENCY = 'ListFollowers_Latency';
 const LIST_FOLLOWING_REQUEST_COUNT = 'ListFollowing_RequestCount';
 const LIST_FOLLOWING_REQUEST_LATENCY = 'ListFollowing_Latency';
 const DELETE_FOLLOW_REQUEST_COUNT = 'DeleteFollow_RequestCount';
+const DELETE_FOLLOW_LATENCY = 'DeleteFollow_Latency';
 
 exports.aggregateFollowMetrics = (meter) => {
   const createFollowRequestCountData = buildCreateFollowRequestCountData();
@@ -49,6 +50,12 @@ exports.aggregateFollowMetrics = (meter) => {
     deleteFollowRequestCountData.metadata
   );
 
+  const deleteFollowLatencyData = buildDeleteFollowLatencyData();
+  const deleteFollowLatency = meter.createGauge(
+    deleteFollowLatencyData.name,
+    deleteFollowLatencyData.metadata
+  );
+
   return {
     createFollowRequestCount: createFollowRequestCount,
     createFollowLatency: createFollowLatency,
@@ -57,6 +64,7 @@ exports.aggregateFollowMetrics = (meter) => {
     listFollowingRequestCount: listFollowingRequestCount,
     listFollowingLatency: listFollowingLatency,
     deleteFollowRequestCount: deleteFollowRequestCount,
+    deleteFollowLatency: deleteFollowLatency,
   };
 };
 
@@ -119,6 +127,15 @@ const buildDeleteFollowRequestCountData = () => {
     name: DELETE_FOLLOW_REQUEST_COUNT,
     metadata: {
       description: 'Count total number of DeleteFollow API requests',
+    },
+  };
+};
+
+const buildDeleteFollowLatencyData = () => {
+  return {
+    name: DELETE_FOLLOW_LATENCY,
+    metadata: {
+      description: 'Records the latency of DeleteFollow API',
     },
   };
 };
