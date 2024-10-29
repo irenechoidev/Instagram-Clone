@@ -10,6 +10,10 @@ const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createLike = async (req, res) => {
   const requestRecieved = new Date().getTime();
+
+  const logger = req.logger.getLogGroup(LIKES_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: POST API: CreateLike`);
+
   let like = null;
 
   const { createLikeRequestCount, createLikeLatency, labels } = req.metrics;
@@ -25,6 +29,8 @@ exports.createLike = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     createLikeLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       like,
@@ -33,6 +39,8 @@ exports.createLike = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   createLikeLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: POST Api: CreateLike`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
