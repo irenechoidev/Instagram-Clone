@@ -120,6 +120,9 @@ exports.deleteFollow = async (req, res) => {
   const follow = await Follow.findOne({ _id: id });
 
   if (!follow) {
+    const latency = new Date().getTime() - requestRecieved;
+    deleteFollowLatency.bind(labels).set(latency);
+
     logger.warn(`Follow with id: ${id} does not exist`);
 
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
