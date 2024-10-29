@@ -110,6 +110,9 @@ exports.listFollowing = async (req, res) => {
 exports.deleteFollow = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
+  const logger = req.logger.getLogGroup(FOLLOW_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: DELETE Api: DeleteFollow`);
+
   const { deleteFollowRequestCount, deleteFollowLatency, labels } = req.metrics;
   deleteFollowRequestCount.bind(labels).add(1);
 
@@ -117,6 +120,8 @@ exports.deleteFollow = async (req, res) => {
   const follow = await Follow.findOne({ _id: id });
 
   if (!follow) {
+    logger.warn(`Follow with id: ${id} does not exist`);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       follow,
@@ -126,6 +131,8 @@ exports.deleteFollow = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   deleteFollowLatency.bind(labels).set(latency);
+
+  logger.info(`End ${req.id} Method: DELETE Api: DeleteFollow`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
