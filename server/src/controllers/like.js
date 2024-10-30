@@ -51,7 +51,7 @@ exports.createLike = async (req, res) => {
 exports.listLikes = async (req, res) => {
   const requestRecieved = new Date().getTime();
   const logger = req.logger.getLogGroup(LIKES_API_CONTROLLER_LOG_GROUP);
-  logger.info(`START ${req.id} Method GET Api: ListLikes`);
+  logger.info(`START ${req.id} Method: GET Api: ListLikes`);
 
   const { listLikesRequestCount, listLikesLatency, labels } = req.metrics;
   listLikesRequestCount.bind(labels).add(1);
@@ -77,16 +77,21 @@ exports.listLikes = async (req, res) => {
 exports.deleteLike = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
-  const { id } = req.params;
+  const logger = req.logger.getLogGroup(LIKES_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: DELETE Api: DeleteLike `);
 
   const { deleteLikeRequestCount, deleteLikeLatency, labels } = req.metrics;
   deleteLikeRequestCount.bind(labels).add(1);
 
+  const { id } = req.params;
   const like = await Like.findOne({ _id: id });
 
   if (!like) {
     const latency = new Date().getTime() - requestRecieved;
     deleteLikeLatency.bind(labels).set(latency);
+
+    logger.warn(`Like with id: ${id} does not exist`);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       like,
@@ -96,6 +101,8 @@ exports.deleteLike = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   deleteLikeLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: DELETE Api: DeleteLike`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
