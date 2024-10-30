@@ -115,6 +115,7 @@ const buildMockRequest = () => {
   mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
   mockReq.logger.info = jest.fn();
   mockReq.logger.error = jest.fn();
+  mockReq.logger.warn = jest.fn();
 
   mockReq.metrics.createLikeRequestCount = {};
   mockReq.metrics.createLikeLatency = {};
