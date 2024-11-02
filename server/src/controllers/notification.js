@@ -1,7 +1,6 @@
 const {
   BAD_REQUEST,
   OK_STATUS_CODE,
-  RESOURCE_NOT_FOUND_STATUS_CODE,
   DEFAULT_LIST_NOTIFICATIONS_LIMIT,
   NOTIFICATIONS_API_CONTROLLER_LOG_GROUP,
 } = require('../commons/constants');
@@ -9,6 +8,9 @@ const Notification = require('../models/notification');
 const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createNotification = async (req, res) => {
+  const { createNotificationRequestCount, labels } = req.metrics;
+  createNotificationRequestCount.bind(labels).add(1);
+
   let notification = null;
 
   try {

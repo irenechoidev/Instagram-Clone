@@ -4,6 +4,7 @@ const { aggregatePostMetrics } = require('./postMetrics');
 const { aggregateCommentMetrics } = require('./commentMetrics');
 const { aggregateLikeMetrics } = require('./likeMetrics');
 const { aggregateFollowMetrics } = require('./followMetrics');
+const { aggregateNotificationMetrics } = require('./notificationMetrics');
 
 exports.createMetrics = () => {
   const exporter = setUpPrometheus();
@@ -15,6 +16,7 @@ exports.createMetrics = () => {
   const commentMetrics = aggregateCommentMetrics(meter);
   const likeMetrics = aggregateLikeMetrics(meter);
   const followMetrics = aggregateFollowMetrics(meter);
+  const notificationMetrics = aggregateNotificationMetrics(meter);
   const labels = meter.labels({});
 
   return {
@@ -22,6 +24,7 @@ exports.createMetrics = () => {
     ...commentMetrics,
     ...likeMetrics,
     ...followMetrics,
+    ...notificationMetrics,
     labels,
   };
 };
