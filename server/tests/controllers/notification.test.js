@@ -9,12 +9,13 @@ test('create_Notification_success', async () => {
   const mockOwner = 'abc';
   const mockSender = 'xyz';
   const mockRead = true;
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     owner: mockOwner,
     sender: mockSender,
     read: mockRead,
   };
-  const mockReq = { body: mockBody };
+
   const mockRes = buildMockResponse();
 
   jest.spyOn(Notification, 'create').mockResolvedValue({});
@@ -32,12 +33,12 @@ test('create_Notification_returns_400', async () => {
   const mockOwner = 'abc';
   const mockSender = 'xyz';
   const mockRead = true;
-  const mockBody = {
+  const mockReq = buildMockRequest();
+  mockReq.body = {
     owner: mockOwner,
     sender: mockSender,
     read: mockRead,
   };
-  const mockReq = { body: mockBody };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Notification, 'create').mockRejectedValue(new Error());
@@ -100,9 +101,19 @@ const buildMockResponse = () => {
 };
 
 const buildMockRequest = () => {
-  const mockReq = { logger: {} };
+  const mockReq = { metrics: {}, logger: {} };
   mockReq.logger.getLogGroup = jest.fn(() => mockReq.logger);
   mockReq.logger.info = jest.fn();
+
+  mockReq.metrics.createNotificationRequestCount = {};
+
+  const createNotificationRequestCount =
+    mockReq.metrics.createNotificationRequestCount;
+
+  createNotificationRequestCount.bind = jest.fn(
+    () => createNotificationRequestCount
+  );
+  createNotificationRequestCount.add = jest.fn();
 
   return mockReq;
 };
