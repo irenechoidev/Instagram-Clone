@@ -8,7 +8,11 @@ const Notification = require('../models/notification');
 const { getPageNumber } = require('../utils/getPageNumber');
 
 exports.createNotification = async (req, res) => {
-  const { createNotificationRequestCount, labels } = req.metrics;
+  const requestRecieved = new Date().getTime();
+
+  const { createNotificationRequestCount, createNotificationLatency, labels } =
+    req.metrics;
+
   createNotificationRequestCount.bind(labels).add(1);
 
   let notification = null;
@@ -21,11 +25,17 @@ exports.createNotification = async (req, res) => {
       createdDate: new Date(),
     });
   } catch (error) {
+    const latency = new Date().getTime() - requestRecieved;
+    createNotificationLatency.bind(labels).set(latency);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       notification,
     });
   }
+
+  const latency = new Date().getTime() - requestRecieved;
+  createNotificationLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
