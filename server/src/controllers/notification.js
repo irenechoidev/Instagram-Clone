@@ -44,6 +44,9 @@ exports.createNotification = async (req, res) => {
 };
 
 exports.listNotifications = async (req, res) => {
+  const { listNotificationsRequestCount, labels } = req.metrics;
+  listNotificationsRequestCount.bind(labels).add(1);
+
   const logger = req.logger.getLogGroup(NOTIFICATIONS_API_CONTROLLER_LOG_GROUP);
   logger.info(`START ${req.id} Method: GET Api: ListNotifications`);
 
