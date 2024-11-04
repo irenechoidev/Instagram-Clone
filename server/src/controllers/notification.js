@@ -44,7 +44,10 @@ exports.createNotification = async (req, res) => {
 };
 
 exports.listNotifications = async (req, res) => {
-  const { listNotificationsRequestCount, labels } = req.metrics;
+  const requestRecieved = new Date().getTime();
+
+  const { listNotificationsRequestCount, listNotificationsLatency, labels } =
+    req.metrics;
   listNotificationsRequestCount.bind(labels).add(1);
 
   const logger = req.logger.getLogGroup(NOTIFICATIONS_API_CONTROLLER_LOG_GROUP);
@@ -60,6 +63,9 @@ exports.listNotifications = async (req, res) => {
     .limit(pageSize);
 
   logger.info(`END ${req.id} Method: GET Api: ListNotifications`);
+
+  const latency = new Date().getTime() - requestRecieved;
+  listNotificationsLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
