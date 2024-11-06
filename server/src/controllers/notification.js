@@ -10,6 +10,9 @@ const { getPageNumber } = require('../utils/getPageNumber');
 exports.createNotification = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
+  const logger = req.logger.getLogGroup(NOTIFICATIONS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: POST Api: CreateNotification`);
+
   const { createNotificationRequestCount, createNotificationLatency, labels } =
     req.metrics;
 
@@ -28,6 +31,8 @@ exports.createNotification = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     createNotificationLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       notification,
@@ -36,6 +41,8 @@ exports.createNotification = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   createNotificationLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: POST Api: CreateNotification`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
