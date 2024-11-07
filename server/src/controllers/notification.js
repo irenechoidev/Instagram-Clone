@@ -81,13 +81,22 @@ exports.listNotifications = async (req, res) => {
 };
 
 exports.updateNotifications = async (req, res) => {
-  const { updateNotificationsRequestCount, labels } = req.metrics;
+  const requestRecieved = new Date().getTime();
+
+  const {
+    updateNotificationsRequestCount,
+    updateNotificationsLatency,
+    labels,
+  } = req.metrics;
   updateNotificationsRequestCount.bind(labels).add(1);
 
   const { username } = req.params;
   await Notification.updateMany({ owner: username }, { read: true });
 
   const notifications = await Notification.find({ owner: username });
+
+  const latency = new Date().getTime() - requestRecieved;
+  updateNotificationsLatency.bind(labels).set(latency);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
