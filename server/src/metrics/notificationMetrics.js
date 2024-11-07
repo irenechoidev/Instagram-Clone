@@ -2,6 +2,7 @@ const CREATE_NOTIFICATION_REQUEST_COUNT = 'CreateNotification_RequestCount';
 const CREATE_NOTIFICATION_LATENCY = 'CreateNotification_Latency';
 const LIST_NOTIFICATIONS_REQUEST_COUNT = 'ListNotifications_RequestCount';
 const LIST_NOTIFICATIONS_LATENCY = 'listNotifications_Latency';
+const UPDATE_NOTIFICATIONS_REQUEST_COUNT = 'updateNotifications_RequestCount';
 
 exports.aggregateNotificationMetrics = (meter) => {
   const createNotificationRequestCountData =
@@ -30,11 +31,19 @@ exports.aggregateNotificationMetrics = (meter) => {
     listNotificationsLatencyData.metadata
   );
 
+  const updateNotificationsRequestCountData =
+    buildUpdateNotificationsRequestCountData();
+  const updateNotificationsRequestCount = meter.createCounter(
+    updateNotificationsRequestCountData.name,
+    updateNotificationsRequestCountData.metadata
+  );
+
   return {
     createNotificationRequestCount: createNotificationRequestCount,
     createNotificationLatency: createNotificationLatency,
     listNotificationsRequestCount: listNotificationsRequestCount,
     listNotificationsLatency: listNotificationsLatency,
+    updateNotificationsRequestCount: updateNotificationsRequestCount,
   };
 };
 
@@ -70,6 +79,15 @@ const buildListNotificationsLatencyData = () => {
     name: LIST_NOTIFICATIONS_LATENCY,
     metadata: {
       description: 'Records the latency of ListNotifications API',
+    },
+  };
+};
+
+const buildUpdateNotificationsRequestCountData = () => {
+  return {
+    name: UPDATE_NOTIFICATIONS_REQUEST_COUNT,
+    metadata: {
+      description: 'Count total number of UpdateNotifications API requests',
     },
   };
 };
