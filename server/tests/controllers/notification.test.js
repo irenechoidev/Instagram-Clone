@@ -77,7 +77,8 @@ test('list_Notifications_Success', async () => {
 
 test('update_Notification_Success', async () => {
   const mockUsername = 'abcd';
-  const mockReq = { params: { username: mockUsername } };
+  const mockReq = buildMockRequest();
+  mockReq.params = { username: mockUsername };
   const mockRes = buildMockResponse();
 
   jest.spyOn(Notification, 'updateMany').mockResolvedValue([{}]);
@@ -131,6 +132,15 @@ const buildMockRequest = () => {
   listNotificationsRequestCount.add = jest.fn();
   listNotificationsLatency.bind = jest.fn(() => listNotificationsLatency);
   listNotificationsLatency.set = jest.fn();
+
+  mockReq.metrics.updateNotificationsRequestCount = {};
+
+  const { updateNotificationsRequestCount } = mockReq.metrics;
+
+  updateNotificationsRequestCount.bind = jest.fn(
+    () => updateNotificationsRequestCount
+  );
+  updateNotificationsRequestCount.add = jest.fn();
 
   return mockReq;
 };
