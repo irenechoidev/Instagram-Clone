@@ -134,13 +134,17 @@ const buildMockRequest = () => {
   listNotificationsLatency.set = jest.fn();
 
   mockReq.metrics.updateNotificationsRequestCount = {};
+  mockReq.metrics.updateNotificationsLatency = {};
 
-  const { updateNotificationsRequestCount } = mockReq.metrics;
+  const { updateNotificationsRequestCount, updateNotificationsLatency } =
+    mockReq.metrics;
 
   updateNotificationsRequestCount.bind = jest.fn(
     () => updateNotificationsRequestCount
   );
   updateNotificationsRequestCount.add = jest.fn();
+  updateNotificationsLatency.bind = jest.fn(() => updateNotificationsLatency);
+  updateNotificationsLatency.set = jest.fn();
 
   return mockReq;
 };
