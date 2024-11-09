@@ -90,10 +90,15 @@ exports.updateNotifications = async (req, res) => {
   } = req.metrics;
   updateNotificationsRequestCount.bind(labels).add(1);
 
+  const logger = req.logger.getLogGroup(NOTIFICATIONS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: PUT Api: UpdateNotifications`);
+
   const { username } = req.params;
   await Notification.updateMany({ owner: username }, { read: true });
 
   const notifications = await Notification.find({ owner: username });
+
+  logger.info(`END ${req.id} Method: PUT Api: UpdateNotifications`);
 
   const latency = new Date().getTime() - requestRecieved;
   updateNotificationsLatency.bind(labels).set(latency);
