@@ -16,7 +16,7 @@ const PostSchema = new Schema({
   },
   imgURL: {
     type: String,
-    required: true,
+    required: false,
   },
   isTest: {
     type: Boolean,
