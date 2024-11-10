@@ -13,6 +13,9 @@ exports.createPost = async (req, res) => {
   const { createPostRequestCount, createPostLatency, labels } = req.metrics;
   createPostRequestCount.bind(labels).add(1);
 
+  const logger = req.logger.getLogGroup(POSTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: POST Api: CreatePost`);
+
   const file = req.file;
   const imgURL = file ? file.filename : null;
   let post = null;
@@ -28,6 +31,8 @@ exports.createPost = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     createPostLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(BAD_REQUEST).json({
       successful: false,
       post,
@@ -36,6 +41,8 @@ exports.createPost = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   createPostLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: POST Api: CreatePost`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
