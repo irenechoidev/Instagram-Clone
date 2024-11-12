@@ -89,12 +89,14 @@ exports.getPost = async (req, res) => {
 exports.updatePost = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
+  const { updatePostRequestCount, updatePostLatency, labels } = req.metrics;
+  updatePostRequestCount.bind(labels).add(1);
+
+  const logger = req.logger.getLogGroup(POSTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Mehtod: PUT Api: UpdatePost`);
+
   let post = null;
   const { id } = req.params;
-
-  const { updatePostRequestCount, updatePostLatency, labels } = req.metrics;
-
-  updatePostRequestCount.bind(labels).add(1);
 
   try {
     await Post.updateOne(
@@ -109,6 +111,8 @@ exports.updatePost = async (req, res) => {
     const latency = new Date().getTime() - requestRecieved;
     updatePostLatency.bind(labels).set(latency);
 
+    logger.error(error);
+
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
       post,
@@ -117,6 +121,8 @@ exports.updatePost = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   updatePostLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: PUT Api: UpdatePost`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
