@@ -133,16 +133,20 @@ exports.updatePost = async (req, res) => {
 exports.deletePost = async (req, res) => {
   const requestRecieved = new Date().getTime();
 
-  const { id } = req.params;
-
   const { deletePostRequestCount, deletePostLatency, labels } = req.metrics;
   deletePostRequestCount.bind(labels).add(1);
 
+  const logger = req.logger.getLogGroup(POSTS_API_CONTROLLER_LOG_GROUP);
+  logger.info(`START ${req.id} Method: DELETE Api: DeletePost`);
+
+  const { id } = req.params;
   const post = await Post.findOne({ _id: id });
 
   if (!post) {
     const latency = new Date().getTime() - requestRecieved;
     deletePostLatency.bind(labels).set(latency);
+
+    logger.warn(`Post with id: ${id} does not exist`);
 
     return res.status(RESOURCE_NOT_FOUND_STATUS_CODE).json({
       successful: false,
@@ -154,6 +158,8 @@ exports.deletePost = async (req, res) => {
 
   const latency = new Date().getTime() - requestRecieved;
   deletePostLatency.bind(labels).set(latency);
+
+  logger.info(`END ${req.id} Method: DELETE Api: DeletePost`);
 
   return res.status(OK_STATUS_CODE).json({
     successful: true,
